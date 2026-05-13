@@ -1239,8 +1239,11 @@ input {
   }
 
   .value-strip span {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 210px);
+    justify-content: center;
     min-height: 52px;
-    text-align: center;
+    text-align: left;
   }
 
   .dashboard-main,
@@ -1357,6 +1360,7 @@ input {
     min-height: 96px;
     border-radius: 12px;
     padding: 16px;
+    text-align: left;
   }
 
   .flow-step > svg {
