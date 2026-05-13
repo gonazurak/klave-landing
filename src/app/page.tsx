@@ -2,18 +2,14 @@ import {
   ArrowRight,
   BadgeCheck,
   BanknoteArrowDown,
-  Building2,
-  ChevronRight,
   CircleDollarSign,
   Clock3,
   FileCheck2,
   Landmark,
   Layers3,
-  LockKeyhole,
   ReceiptText,
   RefreshCw,
   ShieldCheck,
-  Sparkles,
   TrendingUp,
   WalletCards,
   Zap,
@@ -23,9 +19,11 @@ import Image from "next/image";
 const logoSrc = "/brand/klave-logo-inverse-transparent.png";
 
 const metrics = [
-  { label: "Cobros identificados", value: "$18,4M", trend: "+23%" },
-  { label: "Pagos programados", value: "$9,8M", trend: "12 órdenes" },
-  { label: "Conciliación ERP", value: "98,7%", trend: "Bejerman" },
+  { label: "Macro", value: "$32.840.650,75", trend: "+12,4%" },
+  { label: "Galicia", value: "$18.560.210,40", trend: "+8,7%" },
+  { label: "BBVA", value: "$9.784.120,30", trend: "+5,2%" },
+  { label: "Santander", value: "$4.125.870,22", trend: "+3,1%" },
+  { label: "Total disponible", value: "$65.310.851,67", trend: "+9,8%" },
 ];
 
 const flows = [
@@ -40,6 +38,13 @@ const painPoints = [
   "Horas conciliando pagos",
   "Cuentas y bancos separados",
   "ECHEQs fuera del tablero",
+];
+
+const bottomBenefits = [
+  { icon: Landmark, title: "Multi-banco" },
+  { icon: Clock3, title: "Visibilidad en tiempo real" },
+  { icon: BanknoteArrowDown, title: "Automatización de pagos" },
+  { icon: ReceiptText, title: "Conciliación con tu ERP" },
 ];
 
 const plans = [
@@ -62,39 +67,35 @@ function MiniTrend() {
   );
 }
 
-function FlowArrow() {
-  return (
-    <div className="flow-arrow" aria-hidden="true">
-      <ChevronRight size={18} />
-    </div>
-  );
-}
-
 export default function Home() {
   return (
     <main>
       <section className="hero-shell">
-        <div className="hero-grid">
-          <header className="site-header">
+        <header className="site-header">
+          <div className="header-inner">
             <a className="brand" href="#top" aria-label="Klave">
               <Image src={logoSrc} alt="Klave" width={491} height={158} priority />
             </a>
             <nav className="nav-links" aria-label="Principal">
               <a href="#producto">Producto</a>
               <a href="#flujo">Cómo funciona</a>
-              <a href="#pricing">Pricing</a>
+              <a href="#integraciones">Integraciones</a>
+              <a href="#seguridad">Seguridad</a>
+              <a href="#pricing">Precios</a>
+              <a href="#waitlist">Contacto</a>
             </nav>
-            <a className="nav-cta" href="#waitlist">
-              Acceso temprano
-            </a>
+            <div className="header-actions">
+              <a className="login-link" href="#waitlist">Iniciar sesión</a>
+              <a className="nav-cta" href="#waitlist">Unirme a la lista de espera</a>
+            </div>
+          </div>
           </header>
 
+        <div className="hero-grid">
           <div className="hero-copy" id="top">
-            <div className="eyebrow">
-              <Sparkles size={16} />
-              B2B · Multi-banco · ERP-ready
-            </div>
-            <h1>La tesorería digital de tu empresa</h1>
+            <h1>
+              La tesorería digital <span>de tu empresa</span>
+            </h1>
             <p>
               Cobrá identificado, pagá automatizado, conciliá con tu ERP.
               Multi-banco.
@@ -108,96 +109,161 @@ export default function Home() {
                 Ver cómo funciona
               </a>
             </div>
-            <div className="trust-row" aria-label="Señales de confianza">
+            <div className="value-strip" aria-label="Beneficios principales">
               <span>
-                <ShieldCheck size={16} />
-                Sin custodia de fondos
+                <BadgeCheck size={20} />
+                Cobros identificados
+                <small>por CVU único</small>
               </span>
               <span>
-                <LockKeyhole size={16} />
-                Banco como rail
+                <BanknoteArrowDown size={20} />
+                Pagos automatizados
+                <small>y programados</small>
+              </span>
+              <span>
+                <ReceiptText size={20} />
+                Conciliación inteligente
+                <small>con tu ERP</small>
               </span>
             </div>
           </div>
 
           <div className="hero-product" id="producto" aria-label="Vista producto Klave">
-            <div className="product-topbar">
-              <div>
-                <span>Tablero de tesorería</span>
-                <strong>Mayo 2026</strong>
+            <aside className="app-sidebar" aria-hidden="true">
+              <div className="app-mark">»</div>
+              <span className="active"><WalletCards size={17} /></span>
+              <span><Layers3 size={17} /></span>
+              <span><Landmark size={17} /></span>
+              <span><BanknoteArrowDown size={17} /></span>
+              <span><ReceiptText size={17} /></span>
+              <span><TrendingUp size={17} /></span>
+              <span><ShieldCheck size={17} /></span>
+            </aside>
+
+            <div className="app-content">
+              <div className="product-topbar">
+                <div>
+                  <strong>Resumen</strong>
+                  <span>Visión general de tu tesorería</span>
+                </div>
+                <div className="sync-pill">
+                  12-13 may 2026
+                </div>
               </div>
-              <div className="sync-pill">
-                <RefreshCw size={14} />
-                ERP sincronizado
+
+              <span className="panel-label">Saldos en bancos</span>
+              <div className="metric-grid">
+                {metrics.map((metric) => (
+                  <article className="metric-card" key={metric.label}>
+                    <span>{metric.label}</span>
+                    <strong>{metric.value}</strong>
+                    <small>{metric.trend}</small>
+                  </article>
+                ))}
+              </div>
+
+              <div className="dashboard-main">
+                <section className="table-panel">
+                  <div className="panel-heading">
+                    <span>Cobros identificados (hoy)</span>
+                    <ArrowRight size={15} />
+                  </div>
+                  <div className="table-list">
+                    {[
+                      ["ACME S.A.", "$ 1.250.000,00", "Acreditado"],
+                      ["Distribuidora del Norte", "$ 850.000,00", "Acreditado"],
+                      ["Servicios Integrales S.R.L.", "$ 620.000,00", "Acreditado"],
+                      ["Alimentos del Sur S.A.", "$ 415.000,00", "Acreditado"],
+                      ["Grupo Constructor SA", "$ 230.000,00", "Acreditado"],
+                    ].map(([name, amount, status]) => (
+                      <div className="table-row" key={name}>
+                        <span>{name}</span>
+                        <strong>{amount}</strong>
+                        <small>{status}</small>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="table-panel">
+                  <div className="panel-heading">
+                    <span>Pagos a proveedores programados</span>
+                    <ArrowRight size={15} />
+                  </div>
+                  <div className="table-list">
+                    {[
+                      ["Logística Andina S.A.", "$ 2.150.000,00", "Programado"],
+                      ["Tech Solutions S.R.L.", "$ 1.780.000,00", "Programado"],
+                      ["Papeles del Plata S.A.", "$ 950.000,00", "Programado"],
+                      ["Servicios Cloud S.A.", "$ 620.000,00", "Programado"],
+                      ["Publicidad Total S.R.L.", "$ 480.000,00", "Programado"],
+                    ].map(([name, amount, status]) => (
+                      <div className="table-row" key={name}>
+                        <span>{name}</span>
+                        <strong>{amount}</strong>
+                        <small className="muted">{status}</small>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="table-panel echeq-panel">
+                  <div className="panel-heading">
+                    <span>Cola ECHEQ</span>
+                    <CircleDollarSign size={15} />
+                  </div>
+                  <div className="table-list">
+                    {[
+                      ["ECHEQ #0001245", "$ 1.200.000,00", "Pendiente"],
+                      ["ECHEQ #0001244", "$ 850.000,00", "Pendiente"],
+                      ["ECHEQ #0001243", "$ 650.000,00", "Para firmar"],
+                      ["ECHEQ #0001242", "$ 300.000,00", "Para firmar"],
+                      ["ECHEQ #0001241", "$ 210.000,00", "Para firmar"],
+                    ].map(([name, amount, status]) => (
+                      <div className="table-row" key={name}>
+                        <span>{name}</span>
+                        <strong>{amount}</strong>
+                        <small className="warning">{status}</small>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+
+              <div className="dashboard-bottom">
+                <section className="cash-panel">
+                  <div className="panel-heading">
+                    <span>Flujo de caja proyectado</span>
+                    <TrendingUp size={16} />
+                  </div>
+                  <MiniTrend />
+                </section>
+                <section className="sync-panel">
+                  <div className="panel-heading">
+                    <span>Integraciones y sincronización</span>
+                    <RefreshCw size={16} />
+                  </div>
+                  {["SAP Business One", "Microsoft Dynamics 365", "SiAP", "Bancos (4)"].map((item) => (
+                    <div className="sync-row" key={item}>
+                      <span>{item}</span>
+                      <strong>Sincronizado</strong>
+                    </div>
+                  ))}
+                </section>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="metric-grid">
-              {metrics.map((metric) => (
-                <article className="metric-card" key={metric.label}>
-                  <span>{metric.label}</span>
-                  <strong>{metric.value}</strong>
-                  <small>{metric.trend}</small>
-                </article>
-              ))}
-            </div>
-
-            <div className="dashboard-main">
-              <section className="cash-panel">
-                <div className="panel-heading">
-                  <span>Flujo consolidado</span>
-                  <TrendingUp size={18} />
-                </div>
-                <MiniTrend />
-                <div className="cash-row">
-                  <span>Hoy</span>
-                  <strong>$4,2M disponibles</strong>
-                </div>
-              </section>
-
-              <section className="activity-panel">
-                <div className="panel-heading">
-                  <span>Movimientos identificados</span>
-                  <BadgeCheck size={18} />
-                </div>
-                <div className="activity-list">
-                  <div>
-                    <span className="dot aqua" />
-                    <p>Bernini Textil</p>
-                    <strong>$1.250.000</strong>
-                  </div>
-                  <div>
-                    <span className="dot blue" />
-                    <p>Romano Servicios</p>
-                    <strong>$730.000</strong>
-                  </div>
-                  <div>
-                    <span className="dot amber" />
-                    <p>Pago proveedor</p>
-                    <strong>Programado</strong>
-                  </div>
-                </div>
-              </section>
-            </div>
-
-            <div className="bank-strip">
-              <span>
-                <Landmark size={16} />
-                BIND
+        <div className="hero-bottom">
+          <p>Todo lo que tu tesorería necesita, en un solo lugar</p>
+          <div className="benefit-grid">
+            {bottomBenefits.map((item) => (
+              <span key={item.title}>
+                <item.icon size={22} />
+                {item.title}
               </span>
-              <span>
-                <Building2 size={16} />
-                Bejerman
-              </span>
-              <span>
-                <Layers3 size={16} />
-                Multi-empresa
-              </span>
-              <span>
-                <CircleDollarSign size={16} />
-                ECHEQ
-              </span>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -231,7 +297,11 @@ export default function Home() {
                 <item.icon size={24} />
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                {index < flows.length - 1 ? <FlowArrow /> : null}
+                {index < flows.length - 1 ? (
+                  <div className="flow-arrow" aria-hidden="true">
+                    <ArrowRight size={18} />
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>
