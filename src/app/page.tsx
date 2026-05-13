@@ -166,7 +166,7 @@ export default function Home() {
             </nav>
             <div className="header-actions">
               <a className="login-link" href="#waitlist">Iniciar sesión</a>
-              <a className="nav-cta" href="#waitlist">Unirme a la lista de espera</a>
+              <a className="nav-cta" href="#waitlist">Lista de espera</a>
             </div>
           </div>
           </header>
@@ -193,17 +193,14 @@ export default function Home() {
               <span>
                 <BadgeCheck size={20} />
                 Cobros identificados
-                <small>por CVU único</small>
               </span>
               <span>
                 <BanknoteArrowDown size={20} />
                 Pagos automáticos
-                <small>y programados</small>
               </span>
               <span>
                 <ReceiptText size={20} />
                 Conciliación inteligente
-                <small>con tu ERP</small>
               </span>
             </div>
           </div>
@@ -356,8 +353,9 @@ export default function Home() {
           <div className="problem-copy">
             <span className="section-kicker">Tesorería operativa</span>
             <h2>
-              <span>Menos persecución de comprobantes.</span>
-              <span>Más control de caja.</span>
+              Menos persecución de comprobantes.
+              <br />
+              Más control de caja.
             </h2>
             <p>
               Klave centraliza cobros, pagos, saldos y conciliación para que el
@@ -438,6 +436,35 @@ export default function Home() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="pricing-cards" aria-label="Planes">
+            {plans.map((plan) => (
+              <article className="pricing-card" key={plan.name}>
+                <div>
+                  <span>{plan.name}</span>
+                  <strong>{plan.fee}</strong>
+                </div>
+                <dl>
+                  <div>
+                    <dt>Comisión</dt>
+                    <dd>{plan.commission}</dd>
+                  </div>
+                  <div>
+                    <dt>Cap</dt>
+                    <dd>{plan.cap}</dd>
+                  </div>
+                  <div>
+                    <dt>Clientes</dt>
+                    <dd>{plan.customers}</dd>
+                  </div>
+                  <div>
+                    <dt>Pagos</dt>
+                    <dd>{plan.payments}</dd>
+                  </div>
+                </dl>
+                <p>{plan.bestFor}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
