@@ -603,7 +603,7 @@ export default function Home() {
             </label>
             <label>
               Tamaño de cartera
-              <select name="client_count_range" defaultValue="">
+              <select name="client_count_range" defaultValue="" required>
                 <option disabled value="">Seleccionar rango</option>
                 <option value="0-10">0-10 clientes</option>
                 <option value="10-50">10-50 clientes</option>
@@ -613,7 +613,7 @@ export default function Home() {
             </label>
             <label>
               Perfil
-              <select name="vertical" defaultValue="">
+              <select name="vertical" defaultValue="" required>
                 <option disabled value="">Seleccionar perfil</option>
                 <option value="profesional">Profesional independiente</option>
                 <option value="pyme_b2b">PyME B2B</option>
@@ -623,7 +623,7 @@ export default function Home() {
             </label>
             <label>
               Volumen mensual
-              <select name="monthly_volume_range" defaultValue="">
+              <select name="monthly_volume_range" defaultValue="" required>
                 <option disabled value="">Seleccionar volumen</option>
                 <option value="0-5m">Hasta $5M/mes</option>
                 <option value="5-20m">$5M-$20M/mes</option>

@@ -1,9 +1,54 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Calculator, RotateCcw } from "lucide-react";
 
 type ProfileKey = "profesional" | "pyme" | "contador" | "multiempresa";
+type PlanKey = "starter" | "professional" | "business" | "businessPlus" | "accountant";
+
+type CalculatorTrackingPayload = {
+  activeClients: number;
+  monthlyVolume: number;
+  transferPct: number;
+  selectedPlan: string;
+  estimatedMonthlySavings: number;
+  roi: number;
+};
+
+const BUSINESS_ASSUMPTIONS = {
+  arsPerUsd: 1000,
+  weeksPerMonth: 4.33,
+  defaultHourCostARS: 3500,
+  defaultErrorCostARS: 3000,
+  defaultCapitalCostPct: 90,
+  defaultBankCommissionPct: 0.5,
+  expectedAdminReductionPct: 90,
+  expectedErrorReductionPct: 90,
+  expectedDsoReductionDays: 7,
+  minDsoWithKlaveDays: 10,
+  estimatedPaymentsPerClientMonthly: 1.5,
+} as const;
+
+const PLANS: Record<
+  PlanKey,
+  {
+    name: string;
+    monthlyFeeUsd: number;
+    commissionPct: number;
+    commissionCapUsd?: number;
+  }
+> = {
+  starter: { name: "Starter", monthlyFeeUsd: 0, commissionPct: 1, commissionCapUsd: 5 },
+  professional: {
+    name: "Profesional",
+    monthlyFeeUsd: 19,
+    commissionPct: 1,
+    commissionCapUsd: 10,
+  },
+  business: { name: "Business", monthlyFeeUsd: 79, commissionPct: 0.2, commissionCapUsd: 20 },
+  businessPlus: { name: "Business+", monthlyFeeUsd: 149, commissionPct: 0 },
+  accountant: { name: "Contador", monthlyFeeUsd: 199, commissionPct: 0 },
+};
 
 const profiles: Record<
   ProfileKey,
@@ -68,13 +113,35 @@ function formatHours(value: number) {
 }
 
 function selectPlan(clients: number, volume: number) {
-  if (clients <= 5) return { name: "Starter", monthlyFee: 0, commissionPct: 1 };
-  if (clients <= 30) return { name: "Profesional", monthlyFee: 19_000, commissionPct: 1 };
-  if (clients <= 200 && volume <= 30_000_000) {
-    return { name: "Business", monthlyFee: 79_000, commissionPct: 0.2 };
-  }
-  if (volume > 30_000_000) return { name: "Business+", monthlyFee: 149_000, commissionPct: 0 };
-  return { name: "Contador", monthlyFee: 199_000, commissionPct: 0 };
+  if (clients <= 5) return PLANS.starter;
+  if (clients <= 30) return PLANS.professional;
+  if (clients <= 200 && volume <= 30_000_000) return PLANS.business;
+  if (volume > 30_000_000) return PLANS.businessPlus;
+  return PLANS.accountant;
+}
+
+function estimateVariableFee(
+  transferVolume: number,
+  commissionPct: number,
+  commissionCapUsd: number | undefined,
+  estimatedMonthlyPayments: number,
+) {
+  const percentageFee = transferVolume * (commissionPct / 100);
+  if (!commissionCapUsd) return percentageFee;
+
+  const monthlyCapARS =
+    commissionCapUsd * BUSINESS_ASSUMPTIONS.arsPerUsd * estimatedMonthlyPayments;
+  return Math.min(percentageFee, monthlyCapARS);
+}
+
+function trackCalculatorUsed(payload: CalculatorTrackingPayload) {
+  if (typeof window === "undefined") return;
+
+  window.dispatchEvent(
+    new CustomEvent("calculator_used", {
+      detail: payload,
+    }),
+  );
 }
 
 export function ROICalculator() {
@@ -83,38 +150,64 @@ export function ROICalculator() {
   const [volume, setVolume] = useState(profiles.pyme.volume);
   const [transferPct, setTransferPct] = useState(profiles.pyme.transferPct);
   const [weeklyHours, setWeeklyHours] = useState(profiles.pyme.weeklyHours);
-  const [hourCost, setHourCost] = useState(3500);
+  const [hourCost, setHourCost] = useState<number>(BUSINESS_ASSUMPTIONS.defaultHourCostARS);
   const [monthlyErrors, setMonthlyErrors] = useState(profiles.pyme.monthlyErrors);
   const [dsoDays, setDsoDays] = useState(profiles.pyme.dsoDays);
-  const [capitalCostPct, setCapitalCostPct] = useState(90);
+  const [capitalCostPct, setCapitalCostPct] = useState<number>(
+    BUSINESS_ASSUMPTIONS.defaultCapitalCostPct,
+  );
+  const [bankCommissionPct, setBankCommissionPct] = useState<number>(
+    BUSINESS_ASSUMPTIONS.defaultBankCommissionPct,
+  );
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const hasTrackedInitialUse = useRef(false);
 
   const results = useMemo(() => {
     const transferVolume = volume * (transferPct / 100);
-    const monthlyAdminHours = weeklyHours * 4.33;
+    const monthlyAdminHours = weeklyHours * BUSINESS_ASSUMPTIONS.weeksPerMonth;
     const monthlyAdminCost = monthlyAdminHours * hourCost;
-    const errorsCost = monthlyErrors * 3000;
+    const errorsCost = monthlyErrors * BUSINESS_ASSUMPTIONS.defaultErrorCostARS;
     const financialCost = (dsoDays / 365) * volume * (capitalCostPct / 100);
     const totalToday = monthlyAdminCost + errorsCost + financialCost;
 
-    const bindFee = transferVolume * 0.005;
+    const estimatedMonthlyPayments = Math.max(
+      clients,
+      Math.round(clients * BUSINESS_ASSUMPTIONS.estimatedPaymentsPerClientMonthly),
+    );
+    const bankFee = transferVolume * (bankCommissionPct / 100);
     const plan = selectPlan(clients, volume);
-    const klaveFee = plan.monthlyFee + transferVolume * (plan.commissionPct / 100);
-    const newAdminHours = monthlyAdminHours * 0.1;
+    const planFeeARS = plan.monthlyFeeUsd * BUSINESS_ASSUMPTIONS.arsPerUsd;
+    const klaveVariableFee = estimateVariableFee(
+      transferVolume,
+      plan.commissionPct,
+      plan.commissionCapUsd,
+      estimatedMonthlyPayments,
+    );
+    const klaveFee = planFeeARS + klaveVariableFee;
+    const newAdminHours =
+      monthlyAdminHours * (1 - BUSINESS_ASSUMPTIONS.expectedAdminReductionPct / 100);
     const newAdminCost = newAdminHours * hourCost;
-    const newErrorsCost = monthlyErrors * 0.1 * 3000;
-    const newDso = Math.max(dsoDays - 7, 10);
+    const newErrorsCost =
+      monthlyErrors *
+      (1 - BUSINESS_ASSUMPTIONS.expectedErrorReductionPct / 100) *
+      BUSINESS_ASSUMPTIONS.defaultErrorCostARS;
+    const newDso = Math.max(
+      dsoDays - BUSINESS_ASSUMPTIONS.expectedDsoReductionDays,
+      BUSINESS_ASSUMPTIONS.minDsoWithKlaveDays,
+    );
     const newFinancialCost = (newDso / 365) * volume * (capitalCostPct / 100);
-    const totalWithKlave = bindFee + klaveFee + newAdminCost + newErrorsCost + newFinancialCost;
+    const totalWithKlave = bankFee + klaveFee + newAdminCost + newErrorsCost + newFinancialCost;
     const savings = totalToday - totalWithKlave;
-    const roiBase = bindFee + klaveFee || 1;
+    const roiBase = bankFee + klaveFee || 1;
 
     return {
       plan,
       monthlyAdminHours,
+      transferVolume,
       totalToday,
-      bindFee,
+      bankFee,
       klaveFee,
+      estimatedMonthlyPayments,
       newAdminHours,
       newDso,
       totalWithKlave,
@@ -122,7 +215,37 @@ export function ROICalculator() {
       yearlySavings: savings * 12,
       roi: savings / roiBase,
     };
-  }, [capitalCostPct, clients, dsoDays, hourCost, monthlyErrors, transferPct, volume, weeklyHours]);
+  }, [
+    bankCommissionPct,
+    capitalCostPct,
+    clients,
+    dsoDays,
+    hourCost,
+    monthlyErrors,
+    transferPct,
+    volume,
+    weeklyHours,
+  ]);
+
+  useEffect(() => {
+    if (!hasTrackedInitialUse.current) {
+      hasTrackedInitialUse.current = true;
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      trackCalculatorUsed({
+        activeClients: clients,
+        monthlyVolume: volume,
+        transferPct,
+        selectedPlan: results.plan.name,
+        estimatedMonthlySavings: Math.round(results.savings),
+        roi: Number(results.roi.toFixed(2)),
+      });
+    }, 600);
+
+    return () => window.clearTimeout(timeout);
+  }, [clients, results.plan.name, results.roi, results.savings, transferPct, volume]);
 
   function applyProfile(nextProfile: ProfileKey) {
     const preset = profiles[nextProfile];
@@ -145,8 +268,8 @@ export function ROICalculator() {
           </span>
           <h2>Pasá de discutir comisión a medir ahorro real.</h2>
           <p>
-            Estimá el costo oculto de conciliación, errores y capital inmovilizado
-            contra un escenario con cobranza identificada y conciliación automática.
+            Una estimación orientativa para comparar conciliación manual, errores y capital
+            inmovilizado contra un escenario con cobranza identificada y conciliación automática.
           </p>
           <div className="profile-grid" aria-label="Casos pre-cargados">
             {(Object.keys(profiles) as ProfileKey[]).map((key) => (
@@ -188,7 +311,7 @@ export function ROICalculator() {
               />
             </label>
             <label>
-              <span>Pago por transferencia</span>
+              <span>% cobrado por transferencia</span>
               <strong>{transferPct}%</strong>
               <input
                 min="0"
@@ -202,6 +325,7 @@ export function ROICalculator() {
             <button
               className="advanced-toggle"
               type="button"
+              aria-expanded={showAdvanced}
               onClick={() => setShowAdvanced((current) => !current)}
             >
               Ajustar valores avanzados
@@ -256,6 +380,18 @@ export function ROICalculator() {
                   />
                 </label>
                 <label>
+                  <span>Costo bancario estimado</span>
+                  <strong>{bankCommissionPct.toFixed(1)}%</strong>
+                  <input
+                    min="0"
+                    max="1.5"
+                    step="0.1"
+                    type="range"
+                    value={bankCommissionPct}
+                    onChange={(event) => setBankCommissionPct(Number(event.target.value))}
+                  />
+                </label>
+                <label>
                   <span>Costo financiero anual</span>
                   <strong>{capitalCostPct}%</strong>
                   <input
@@ -272,28 +408,28 @@ export function ROICalculator() {
 
           <div className="roi-results">
             <div className="result-card">
-              <span>Hoy</span>
+              <span>Hoy, estimado</span>
               <strong>{formatARS(results.totalToday)}</strong>
               <small>{formatHours(results.monthlyAdminHours)} y DSO {dsoDays} días</small>
             </div>
             <div className="result-card highlighted">
-              <span>Con Klave</span>
+              <span>Escenario con Klave</span>
               <strong>{formatARS(results.totalWithKlave)}</strong>
               <small>
                 {results.plan.name}, {formatHours(results.newAdminHours)} y DSO {results.newDso} días
               </small>
             </div>
             <div className="roi-balance">
-              <span>Balance neto estimado</span>
+              <span>Balance orientativo</span>
               <strong>{formatARS(results.savings)}/mes</strong>
               <small>
-                {formatARS(results.yearlySavings)}/año · ROI {results.roi.toFixed(1)}x
+                {formatARS(results.yearlySavings)}/año · ROI estimado {results.roi.toFixed(1)}x
               </small>
             </div>
             <dl className="cost-breakdown">
               <div>
-                <dt>Comisión BIND estimada</dt>
-                <dd>{formatARS(results.bindFee)}</dd>
+                <dt>Costo bancario estimado</dt>
+                <dd>{formatARS(results.bankFee)}</dd>
               </div>
               <div>
                 <dt>Plan Klave + variable</dt>
@@ -304,6 +440,11 @@ export function ROICalculator() {
                 <dd>{results.plan.name}</dd>
               </div>
             </dl>
+            <p className="roi-assumptions">
+              Supone USD {BUSINESS_ASSUMPTIONS.arsPerUsd.toLocaleString("es-AR")} de referencia,
+              {` ${results.estimatedMonthlyPayments.toLocaleString("es-AR")} pagos/mes estimados `}
+              y mejoras operativas esperadas, no garantizadas.
+            </p>
             <button className="reset-button" type="button" onClick={() => applyProfile(profile)}>
               <RotateCcw size={16} />
               Restaurar caso

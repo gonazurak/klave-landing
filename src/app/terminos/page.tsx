@@ -6,8 +6,12 @@ const logoSrc = `${basePath}/brand/klave-logo-inverse-transparent.png`;
 const homeHref = `${basePath || ""}/`;
 
 export const metadata: Metadata = {
-  title: "Términos | Klave",
-  description: "Términos preliminares de uso de Klave.",
+  title: "Términos",
+  description:
+    "Términos preliminares de Klave para etapa pre-MVP y lista de espera.",
+  alternates: {
+    canonical: "/terminos",
+  },
 };
 
 export default function TermsPage() {
@@ -24,7 +28,8 @@ export default function TermsPage() {
         <p>
           Klave se encuentra en etapa pre-MVP. La información publicada en este
           sitio describe una propuesta de producto y no constituye una oferta
-          comercial definitiva ni una prestación bancaria o financiera regulada.
+          comercial definitiva, una prestación bancaria o financiera regulada,
+          ni una promesa de disponibilidad productiva.
         </p>
 
         <h2>Acceso temprano</h2>
@@ -37,14 +42,24 @@ export default function TermsPage() {
         <p>
           La dirección actual del producto es proveer software para visibilidad,
           conciliación y automatización operativa. Klave no debe ser interpretado
-          como entidad financiera, banco, PSPCP ni custodio de fondos.
+          como entidad financiera, banco, proveedor de servicios de pago que
+          ofrece cuentas de pago, asesor financiero ni custodio de fondos.
         </p>
 
         <h2>Integraciones</h2>
         <p>
           Las menciones a bancos, ERPs o servicios externos reflejan integraciones
-          planificadas o investigadas. Su disponibilidad depende de acuerdos,
-          APIs, permisos y validaciones técnicas.
+          planificadas, investigadas o evaluadas para POCs. No implican
+          partnership oficial, certificación, aprobación regulatoria ni
+          disponibilidad general. Su uso depende de acuerdos, APIs, permisos y
+          validaciones técnicas.
+        </p>
+
+        <h2>Lista de espera</h2>
+        <p>
+          El formulario de contacto funciona como una expresión de interés. Los
+          datos enviados se usan para responder consultas, priorizar entrevistas
+          y evaluar casos privados de acceso temprano.
         </p>
 
         <h2>Precios</h2>

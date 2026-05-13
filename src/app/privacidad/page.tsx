@@ -6,8 +6,12 @@ const logoSrc = `${basePath}/brand/klave-logo-inverse-transparent.png`;
 const homeHref = `${basePath || ""}/`;
 
 export const metadata: Metadata = {
-  title: "Privacidad | Klave",
-  description: "Política de privacidad preliminar de Klave.",
+  title: "Privacidad",
+  description:
+    "Política de privacidad preliminar de Klave para etapa pre-MVP y lista de espera.",
+  alternates: {
+    canonical: "/privacidad",
+  },
 };
 
 export default function PrivacyPage() {
@@ -24,6 +28,7 @@ export default function PrivacyPage() {
         <p>
           Esta política preliminar describe cómo Klave recolecta y usa datos de
           contacto enviados en la landing y en conversaciones de acceso temprano.
+          Klave está en etapa pre-MVP y lista de espera.
         </p>
 
         <h2>Datos que podemos recolectar</h2>
@@ -40,6 +45,14 @@ export default function PrivacyPage() {
           B2B argentinas.
         </p>
 
+        <h2>Base de datos y terceros</h2>
+        <p>
+          Antes de operar productivamente, Klave deberá revisar sus obligaciones
+          bajo la Ley 25.326, definir subprocesadores y completar los registros o
+          consentimientos que correspondan. En esta etapa, no se publican datos
+          de usuarios de la lista de espera ni se venden a terceros.
+        </p>
+
         <h2>No custodia de fondos</h2>
         <p>
           La dirección actual de Klave es operar como software de tesorería, sin
@@ -50,8 +63,9 @@ export default function PrivacyPage() {
 
         <h2>Derechos del titular</h2>
         <p>
-          Podés pedir acceso, rectificación o eliminación de tus datos escribiendo
-          a <a href="mailto:hola@klave.com.ar">hola@klave.com.ar</a>.
+          Podés pedir acceso, rectificación, actualización o eliminación de tus
+          datos escribiendo a{" "}
+          <a href="mailto:hola@klave.com.ar">hola@klave.com.ar</a>.
         </p>
 
         <p className="legal-note">
