@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-const logoSrc = "/brand/klave-logo-inverse-transparent.png";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const logoSrc = `${basePath}/brand/klave-logo-inverse-transparent.png`;
 
 const metrics = [
   { label: "Macro", value: "$32.840.650,75", trend: "+12,4%" },
