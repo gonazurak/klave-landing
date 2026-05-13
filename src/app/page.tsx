@@ -56,7 +56,7 @@ const painPoints = [
 const bottomBenefits = [
   { icon: Landmark, title: "Multi-banco" },
   { icon: Clock3, title: "Visibilidad en tiempo real" },
-  { icon: BanknoteArrowDown, title: "Automatización de pagos" },
+  { icon: BanknoteArrowDown, title: "Pagos automáticos" },
   { icon: ReceiptText, title: "Conciliación con tu ERP" },
 ];
 
@@ -197,7 +197,7 @@ export default function Home() {
               </span>
               <span>
                 <BanknoteArrowDown size={20} />
-                Pagos automatizados
+                Pagos automáticos
                 <small>y programados</small>
               </span>
               <span>
@@ -210,7 +210,9 @@ export default function Home() {
 
           <div className="hero-product" id="producto" aria-label="Vista producto Klave">
             <aside className="app-sidebar" aria-hidden="true">
-              <div className="app-mark">»</div>
+              <div className="app-mark">
+                <Image src={logoSrc} alt="" width={491} height={158} />
+              </div>
               <span className="active"><WalletCards size={17} /></span>
               <span><Layers3 size={17} /></span>
               <span><Landmark size={17} /></span>
@@ -251,11 +253,11 @@ export default function Home() {
                   </div>
                   <div className="table-list">
                     {[
-                      ["ACME S.A.", "$ 1.250.000,00", "Acreditado"],
-                      ["Distribuidora del Norte", "$ 850.000,00", "Acreditado"],
-                      ["Servicios Integrales S.R.L.", "$ 620.000,00", "Acreditado"],
-                      ["Alimentos del Sur S.A.", "$ 415.000,00", "Acreditado"],
-                      ["Grupo Constructor SA", "$ 230.000,00", "Acreditado"],
+                      ["Cliente recurrente", "$ 1.250.000,00", "Acreditado"],
+                      ["Factura B2B", "$ 850.000,00", "Acreditado"],
+                      ["Abono mensual", "$ 620.000,00", "Acreditado"],
+                      ["Orden comercial", "$ 415.000,00", "Acreditado"],
+                      ["Anticipo recibido", "$ 230.000,00", "Acreditado"],
                     ].map(([name, amount, status]) => (
                       <div className="table-row" key={name}>
                         <span>{name}</span>
@@ -273,11 +275,11 @@ export default function Home() {
                   </div>
                   <div className="table-list">
                     {[
-                      ["Logística Andina S.A.", "$ 2.150.000,00", "Programado"],
-                      ["Tech Solutions S.R.L.", "$ 1.780.000,00", "Programado"],
-                      ["Papeles del Plata S.A.", "$ 950.000,00", "Programado"],
-                      ["Servicios Cloud S.A.", "$ 620.000,00", "Programado"],
-                      ["Publicidad Total S.R.L.", "$ 480.000,00", "Programado"],
+                      ["Proveedor logístico", "$ 2.150.000,00", "Programado"],
+                      ["Servicios digitales", "$ 1.780.000,00", "Programado"],
+                      ["Insumos operativos", "$ 950.000,00", "Programado"],
+                      ["Infraestructura cloud", "$ 620.000,00", "Programado"],
+                      ["Campaña comercial", "$ 480.000,00", "Programado"],
                     ].map(([name, amount, status]) => (
                       <div className="table-row" key={name}>
                         <span>{name}</span>
@@ -295,11 +297,11 @@ export default function Home() {
                   </div>
                   <div className="table-list">
                     {[
-                      ["ECHEQ #0001245", "$ 1.200.000,00", "Pendiente"],
-                      ["ECHEQ #0001244", "$ 850.000,00", "Pendiente"],
-                      ["ECHEQ #0001243", "$ 650.000,00", "Para firmar"],
-                      ["ECHEQ #0001242", "$ 300.000,00", "Para firmar"],
-                      ["ECHEQ #0001241", "$ 210.000,00", "Para firmar"],
+                      ["ECHEQ a vencer", "$ 1.200.000,00", "Pendiente"],
+                      ["ECHEQ recibido", "$ 850.000,00", "Pendiente"],
+                      ["ECHEQ para firmar", "$ 650.000,00", "Para firmar"],
+                      ["ECHEQ diferido", "$ 300.000,00", "Para firmar"],
+                      ["ECHEQ menor", "$ 210.000,00", "Para firmar"],
                     ].map(([name, amount, status]) => (
                       <div className="table-row" key={name}>
                         <span>{name}</span>
@@ -324,10 +326,10 @@ export default function Home() {
                     <span>Integraciones y sincronización</span>
                     <RefreshCw size={16} />
                   </div>
-                  {["SAP Business One", "Microsoft Dynamics 365", "SiAP", "Bancos (4)"].map((item) => (
+                  {["ERP", "Bancos", "Contabilidad", "API"].map((item) => (
                     <div className="sync-row" key={item}>
                       <span>{item}</span>
-                      <strong>Sincronizado</strong>
+                      <strong>Conectado</strong>
                     </div>
                   ))}
                 </section>
@@ -353,7 +355,10 @@ export default function Home() {
         <div className="section-inner problem-grid">
           <div className="problem-copy">
             <span className="section-kicker">Tesorería operativa</span>
-            <h2>Menos persecución de comprobantes. Más control de caja.</h2>
+            <h2>
+              <span>Menos persecución de comprobantes.</span>
+              <span>Más control de caja.</span>
+            </h2>
             <p>
               Klave centraliza cobros, pagos, saldos y conciliación para que el
               seguimiento diario no dependa de mensajes sueltos ni planillas.
@@ -433,13 +438,6 @@ export default function Home() {
                 ))}
               </tbody>
             </table>
-            <p className="pricing-note">
-              La estructura sigue la documentación interna de pricing: Starter
-              y Profesional priorizan entrada baja, Business baja la comisión
-              para tickets B2B altos, Business+ elimina la comisión para CFOs
-              que prefieren previsibilidad y Contador opera multi-tenant sin
-              cobrar sobre el flujo de sus clientes.
-            </p>
           </div>
         </div>
       </section>
@@ -470,6 +468,21 @@ export default function Home() {
           </form>
         </div>
       </section>
+
+      <footer className="site-footer">
+        <div className="footer-inner">
+          <a className="footer-brand" href="#top" aria-label="Klave">
+            <Image src={logoSrc} alt="Klave" width={491} height={158} />
+          </a>
+          <p>La tesorería digital de tu empresa.</p>
+          <nav aria-label="Footer">
+            <a href="#producto">Producto</a>
+            <a href="#flujo">Cómo funciona</a>
+            <a href="#pricing">Precios</a>
+            <a href="#waitlist">Contacto</a>
+          </nav>
+        </div>
+      </footer>
     </main>
   );
 }

@@ -102,7 +102,7 @@ input {
 
 .brand img {
   display: block;
-  width: 166px;
+  width: 176px;
   height: auto;
 }
 
@@ -313,10 +313,18 @@ input {
 }
 
 .app-mark {
-  color: var(--aqua);
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 1;
+  width: 38px;
+  height: 38px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.app-mark img {
+  display: block;
+  width: 118px;
+  max-width: none;
+  height: auto;
+  transform: translate(-2px, 0);
 }
 
 .app-sidebar span {
@@ -789,6 +797,14 @@ input {
   font-size: 16px;
 }
 
+.problem-copy h2 {
+  max-width: 760px;
+}
+
+.problem-copy h2 span {
+  display: block;
+}
+
 .pain-grid {
   display: grid;
   gap: 12px;
@@ -802,7 +818,7 @@ input {
   background: white;
   color: #223955;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
   padding: 18px;
   box-shadow: 0 14px 36px rgba(10, 37, 64, 0.055);
@@ -945,16 +961,6 @@ input {
   border-bottom: 0;
 }
 
-.pricing-note {
-  margin: 0;
-  border-top: 1px solid #e2ebf1;
-  background: #f8fbfd;
-  padding: 18px 20px;
-  color: #526175;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
 .waitlist-band {
   background: var(--navy-900);
   color: white;
@@ -1008,6 +1014,53 @@ input {
   color: #032012;
   cursor: pointer;
   font-weight: 700;
+}
+
+.site-footer {
+  background: #020a14;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 28px;
+  width: min(1180px, calc(100% - 48px));
+  min-height: 132px;
+  margin: 0 auto;
+  padding: 28px 0;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-brand img {
+  display: block;
+  width: 142px;
+  height: auto;
+}
+
+.footer-inner p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 14px;
+}
+
+.footer-inner nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+}
+
+.footer-inner nav a:hover {
+  color: white;
 }
 
 @media (max-width: 1180px) {
@@ -1086,6 +1139,23 @@ input {
   .pricing-table {
     min-width: 900px;
   }
+
+  .table-list {
+    gap: 8px;
+  }
+
+  .table-row {
+    min-height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    background: rgba(2, 14, 28, 0.2);
+    padding: 8px 10px;
+  }
+
+  .table-row span {
+    color: rgba(255, 255, 255, 0.86);
+    font-weight: 600;
+  }
 }
 
 @media (max-width: 680px) {
@@ -1104,7 +1174,7 @@ input {
   }
 
   .brand img {
-    width: 132px;
+    width: 142px;
   }
 
   .login-link {
@@ -1142,6 +1212,10 @@ input {
     justify-content: flex-start;
   }
 
+  .value-strip span {
+    min-height: 58px;
+  }
+
   .metric-grid,
   .dashboard-main,
   .dashboard-bottom,
@@ -1164,6 +1238,44 @@ input {
   .product-topbar {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .table-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 10px;
+  }
+
+  .table-row span {
+    grid-column: 1 / 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .table-row strong {
+    grid-column: 1 / 2;
+    grid-row: 2;
+  }
+
+  .table-row small {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+    white-space: nowrap;
+  }
+
+  .problem-copy h2 span {
+    display: inline;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    min-height: auto;
+  }
+
+  .footer-inner nav {
+    justify-content: flex-start;
   }
 
   .section-inner {
