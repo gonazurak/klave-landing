@@ -250,36 +250,37 @@ input {
 .value-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  gap: 12px;
   margin-top: 46px;
   max-width: 570px;
 }
 
 .value-strip span {
   display: grid;
-  grid-template-columns: 24px 1fr;
-  gap: 8px 12px;
-  align-items: start;
+  grid-template-columns: 28px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: 4px 10px;
+  align-items: center;
   min-width: 0;
   color: white;
   font-size: 14px;
-  line-height: 1.2;
-  padding-right: 18px;
-  border-right: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.value-strip span:last-child {
-  border-right: 0;
+  line-height: 1.25;
+  min-height: 64px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
 }
 
 .value-strip svg {
   color: var(--aqua);
-  grid-row: span 2;
+  grid-row: 1 / 3;
 }
 
 .value-strip small {
   color: rgba(255, 255, 255, 0.66);
   font-size: 13px;
+  line-height: 1.15;
 }
 
 .hero-product {
@@ -356,8 +357,7 @@ input {
 .metric-card span,
 .panel-heading,
 .cash-row span,
-.activity-list p,
-.plan-card span {
+.activity-list p {
   color: rgba(255, 255, 255, 0.62);
   font-size: 13px;
 }
@@ -398,8 +398,6 @@ input {
 .metric-card,
 .cash-panel,
 .activity-panel,
-.plan-card,
-.pain-item,
 .flow-step {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.075);
@@ -408,16 +406,34 @@ input {
 .metric-card {
   min-height: 118px;
   border-radius: 7px;
-  padding: 14px;
+  min-width: 0;
+  padding: 13px 12px;
 }
 
 .metric-card strong {
   display: block;
-  margin: 14px 0 10px;
-  font-size: 17px;
+  margin: 12px 0 6px;
+  max-width: 100%;
+  overflow: hidden;
+  color: white;
+  font-size: clamp(17px, 1.2vw, 21px);
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metric-card em {
+  display: block;
+  min-height: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1.15;
 }
 
 .metric-card small {
+  display: block;
+  margin-top: 9px;
   color: var(--aqua);
   font-size: 12px;
 }
@@ -530,6 +546,92 @@ input {
 .dashboard-bottom .cash-panel,
 .dashboard-bottom .sync-panel {
   min-height: 198px;
+}
+
+.cashflow-chart {
+  position: relative;
+  height: 144px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.cashflow-grid {
+  position: absolute;
+  inset: 8px 0 20px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 16.66% 100%;
+}
+
+.cashflow-chart svg {
+  position: absolute;
+  inset: 8px 0 20px 34px;
+  width: calc(100% - 42px);
+  height: calc(100% - 28px);
+}
+
+.cashflow-fill {
+  fill: url("#cashflowFill");
+}
+
+.cashflow-line {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.cashflow-line.real {
+  stroke: var(--aqua);
+}
+
+.cashflow-line.projected {
+  stroke: var(--aqua);
+  stroke-dasharray: 8 8;
+  opacity: 0.62;
+}
+
+.cashflow-chart circle {
+  fill: var(--aqua);
+  stroke: rgba(255, 255, 255, 0.84);
+  stroke-width: 2;
+}
+
+.chart-tooltip {
+  position: absolute;
+  left: 56%;
+  top: 46px;
+  min-width: 86px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(2, 14, 28, 0.82);
+  padding: 8px 9px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+}
+
+.chart-tooltip span,
+.chart-scale span {
+  display: block;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 10px;
+}
+
+.chart-tooltip strong {
+  display: block;
+  margin-top: 3px;
+  color: white;
+  font-size: 12px;
+}
+
+.chart-scale {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  text-align: right;
 }
 
 .sync-row {
@@ -674,29 +776,50 @@ input {
 }
 
 .pricing-layout p,
+.problem-copy p,
 .waitlist-panel p,
 .flow-step p {
   color: #526175;
   line-height: 1.65;
 }
 
+.problem-copy p {
+  max-width: 560px;
+  margin: 22px 0 0;
+  font-size: 16px;
+}
+
 .pain-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 12px;
 }
 
 .pain-item {
-  min-height: 88px;
+  min-height: 82px;
+  border: 1px solid #d8e2ee;
   border-color: #d8e2ee;
-  border-radius: 18px;
+  border-radius: 10px;
   background: white;
   color: #223955;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 20px;
-  box-shadow: 0 18px 44px rgba(10, 37, 64, 0.06);
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px;
+  box-shadow: 0 14px 36px rgba(10, 37, 64, 0.055);
+}
+
+.pain-item strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--navy);
+  font-size: 15px;
+}
+
+.pain-item span {
+  display: block;
+  color: #526175;
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .pain-item svg,
@@ -755,34 +878,81 @@ input {
   background: #edf5f9;
 }
 
-.plans-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+.pricing-layout {
+  grid-template-columns: minmax(0, 0.58fr) minmax(0, 1.42fr);
+  align-items: start;
 }
 
-.plan-card {
-  min-height: 190px;
-  border-color: #d6e3ec;
-  border-radius: 22px;
+.pricing-copy {
+  position: sticky;
+  top: 24px;
+}
+
+.pricing-copy p {
+  max-width: 500px;
+  margin: 22px 0 0;
+}
+
+.pricing-table-wrap {
+  overflow: hidden;
+  border: 1px solid #d6e3ec;
+  border-radius: 12px;
   background: white;
-  padding: 24px;
+  box-shadow: 0 18px 44px rgba(10, 37, 64, 0.06);
 }
 
-.plan-card span {
+.pricing-table {
+  width: 100%;
+  border-collapse: collapse;
   color: #526175;
+  font-size: 12px;
 }
 
-.plan-card strong {
-  display: block;
-  margin: 22px 0 12px;
+.pricing-table th,
+.pricing-table td {
+  border-bottom: 1px solid #e2ebf1;
+  padding: 14px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.pricing-table thead th {
+  background: #f7fafc;
+  color: #526175;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.pricing-table tbody th {
   color: var(--navy);
-  font-size: 32px;
+  font-size: 14px;
+  font-weight: 750;
 }
 
-.plan-card p {
+.pricing-table td:nth-child(2),
+.pricing-table td:nth-child(3),
+.pricing-table td:nth-child(4),
+.pricing-table td:nth-child(5),
+.pricing-table td:nth-child(6) {
+  color: var(--navy);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pricing-table tr:last-child th,
+.pricing-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.pricing-note {
   margin: 0;
-  font-size: 14px;
+  border-top: 1px solid #e2ebf1;
+  background: #f8fbfd;
+  padding: 18px 20px;
+  color: #526175;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .waitlist-band {
@@ -875,13 +1045,46 @@ input {
     margin-bottom: 28px;
   }
 
-  .flow-grid,
-  .plans-grid {
+  .flow-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricing-copy {
+    position: static;
   }
 
   .flow-arrow {
     display: none;
+  }
+}
+
+@media (max-width: 920px) {
+  .hero-product {
+    min-height: auto;
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-main,
+  .dashboard-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .cash-panel,
+  .activity-panel,
+  .table-panel,
+  .sync-panel {
+    min-height: auto;
+  }
+
+  .pricing-table-wrap {
+    overflow-x: auto;
+  }
+
+  .pricing-table {
+    min-width: 900px;
   }
 }
 
@@ -943,8 +1146,7 @@ input {
   .dashboard-main,
   .dashboard-bottom,
   .pain-grid,
-  .flow-grid,
-  .plans-grid {
+  .flow-grid {
     grid-template-columns: 1fr;
   }
 

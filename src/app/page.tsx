@@ -20,11 +20,11 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const logoSrc = `${basePath}/brand/klave-logo-inverse-transparent.png`;
 
 const metrics = [
-  { label: "Macro", value: "$32.840.650,75", trend: "+12,4%" },
-  { label: "Galicia", value: "$18.560.210,40", trend: "+8,7%" },
-  { label: "BBVA", value: "$9.784.120,30", trend: "+5,2%" },
-  { label: "Santander", value: "$4.125.870,22", trend: "+3,1%" },
-  { label: "Total disponible", value: "$65.310.851,67", trend: "+9,8%" },
+  { label: "Macro", value: "$32,8M", detail: "Cuenta principal", trend: "+12,4%" },
+  { label: "Galicia", value: "$18,6M", detail: "Cuenta operativa", trend: "+8,7%" },
+  { label: "BBVA", value: "$9,8M", detail: "Cuenta secundaria", trend: "+5,2%" },
+  { label: "Santander", value: "$4,1M", detail: "Cuenta pagos", trend: "+3,1%" },
+  { label: "Total disponible", value: "$65,3M", detail: "En 4 cuentas", trend: "+9,8%" },
 ];
 
 const flows = [
@@ -35,10 +35,22 @@ const flows = [
 ];
 
 const painPoints = [
-  "Comprobantes por WhatsApp",
-  "Horas conciliando pagos",
-  "Cuentas y bancos separados",
-  "ECHEQs fuera del tablero",
+  {
+    title: "Comprobantes por WhatsApp",
+    text: "Cada pago exige pedir, reenviar y validar capturas manualmente.",
+  },
+  {
+    title: "Horas conciliando pagos",
+    text: "El equipo pierde tiempo cruzando banco, ERP y planillas.",
+  },
+  {
+    title: "Cuentas y bancos separados",
+    text: "La caja real queda repartida entre portales y extractos.",
+  },
+  {
+    title: "ECHEQs fuera del tablero",
+    text: "Cheques, vencimientos y aprobaciones viven en otro circuito.",
+  },
 ];
 
 const bottomBenefits = [
@@ -49,21 +61,88 @@ const bottomBenefits = [
 ];
 
 const plans = [
-  { name: "Starter", price: "$0", detail: "Para validar con pocos clientes" },
-  { name: "Profesional", price: "USD 19", detail: "Independientes con cobranza recurrente" },
-  { name: "Business", price: "USD 79", detail: "PyMEs B2B con tesorería activa" },
+  {
+    name: "Starter",
+    fee: "USD 0",
+    commission: "1,0%",
+    cap: "USD 5",
+    customers: "5",
+    payments: "100/mes",
+    bestFor: "Prueba real con pocos clientes.",
+  },
+  {
+    name: "Profesional",
+    fee: "USD 19",
+    commission: "1,0%",
+    cap: "USD 10",
+    customers: "30",
+    payments: "500/mes",
+    bestFor: "Profesionales con cobranza recurrente.",
+  },
+  {
+    name: "Business",
+    fee: "USD 79",
+    commission: "0,2%",
+    cap: "USD 20",
+    customers: "200",
+    payments: "Ilimitado",
+    bestFor: "Empresas B2B con ERP, ECHEQ y API.",
+  },
+  {
+    name: "Business+",
+    fee: "USD 149",
+    commission: "0%",
+    cap: "Sin cap",
+    customers: "500",
+    payments: "Ilimitado",
+    bestFor: "Volumen alto con costo mensual predecible.",
+  },
+  {
+    name: "Contador",
+    fee: "USD 199",
+    commission: "0%",
+    cap: "Sin cap",
+    customers: "50 sub-clientes",
+    payments: "Ilimitado",
+    bestFor: "Estudios contables multi-empresa.",
+  },
 ];
 
-function MiniTrend() {
+function CashFlowChart() {
   return (
-    <div className="trend" aria-hidden="true">
-      <span />
-      <span />
-      <span />
-      <span />
-      <span />
-      <span />
-      <span />
+    <div className="cashflow-chart" aria-hidden="true">
+      <div className="cashflow-grid" />
+      <svg viewBox="0 0 520 170" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="cashflowFill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#3ddc97" stopOpacity="0.32" />
+            <stop offset="100%" stopColor="#3ddc97" stopOpacity="0.02" />
+          </linearGradient>
+        </defs>
+        <path
+          className="cashflow-fill"
+          d="M8 132 C44 124 70 118 104 121 C144 124 166 98 204 103 C242 108 260 83 296 86 C336 89 360 66 398 70 C438 74 462 49 512 42 L512 162 L8 162 Z"
+        />
+        <path
+          className="cashflow-line real"
+          d="M8 132 C44 124 70 118 104 121 C144 124 166 98 204 103 C242 108 260 83 296 86"
+        />
+        <path
+          className="cashflow-line projected"
+          d="M296 86 C336 89 360 66 398 70 C438 74 462 49 512 42"
+        />
+        <circle cx="296" cy="86" r="5" />
+      </svg>
+      <div className="chart-tooltip">
+        <span>16 may</span>
+        <strong>$58,2M</strong>
+      </div>
+      <div className="chart-scale">
+        <span>$80M</span>
+        <span>$60M</span>
+        <span>$40M</span>
+        <span>$20M</span>
+      </div>
     </div>
   );
 }
@@ -158,6 +237,7 @@ export default function Home() {
                   <article className="metric-card" key={metric.label}>
                     <span>{metric.label}</span>
                     <strong>{metric.value}</strong>
+                    <em>{metric.detail}</em>
                     <small>{metric.trend}</small>
                   </article>
                 ))}
@@ -237,9 +317,9 @@ export default function Home() {
                     <span>Flujo de caja proyectado</span>
                     <TrendingUp size={16} />
                   </div>
-                  <MiniTrend />
+                  <CashFlowChart />
                 </section>
-                <section className="sync-panel">
+                <section className="sync-panel" id="integraciones">
                   <div className="panel-heading">
                     <span>Integraciones y sincronización</span>
                     <RefreshCw size={16} />
@@ -269,17 +349,24 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="problem-band">
+      <section className="problem-band" id="seguridad">
         <div className="section-inner problem-grid">
-          <div>
+          <div className="problem-copy">
             <span className="section-kicker">Tesorería operativa</span>
             <h2>Menos persecución de comprobantes. Más control de caja.</h2>
+            <p>
+              Klave centraliza cobros, pagos, saldos y conciliación para que el
+              seguimiento diario no dependa de mensajes sueltos ni planillas.
+            </p>
           </div>
           <div className="pain-grid">
             {painPoints.map((point) => (
-              <div className="pain-item" key={point}>
+              <div className="pain-item" key={point.title}>
                 <Clock3 size={18} />
-                <span>{point}</span>
+                <div>
+                  <strong>{point.title}</strong>
+                  <span>{point.text}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -311,7 +398,7 @@ export default function Home() {
 
       <section className="pricing-band" id="pricing">
         <div className="section-inner pricing-layout">
-          <div>
+          <div className="pricing-copy">
             <span className="section-kicker">Acceso temprano</span>
             <h2>Planes pensados para validar rápido y crecer con volumen.</h2>
             <p>
@@ -319,14 +406,40 @@ export default function Home() {
               castigar operaciones B2B de ticket alto.
             </p>
           </div>
-          <div className="plans-grid">
-            {plans.map((plan) => (
-              <article className="plan-card" key={plan.name}>
-                <span>{plan.name}</span>
-                <strong>{plan.price}</strong>
-                <p>{plan.detail}</p>
-              </article>
-            ))}
+          <div className="pricing-table-wrap">
+            <table className="pricing-table">
+              <thead>
+                <tr>
+                  <th>Plan</th>
+                  <th>Abono</th>
+                  <th>Comisión</th>
+                  <th>Cap</th>
+                  <th>Clientes</th>
+                  <th>Pagos</th>
+                  <th>Uso recomendado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {plans.map((plan) => (
+                  <tr key={plan.name}>
+                    <th scope="row">{plan.name}</th>
+                    <td>{plan.fee}</td>
+                    <td>{plan.commission}</td>
+                    <td>{plan.cap}</td>
+                    <td>{plan.customers}</td>
+                    <td>{plan.payments}</td>
+                    <td>{plan.bestFor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="pricing-note">
+              La estructura sigue la documentación interna de pricing: Starter
+              y Profesional priorizan entrada baja, Business baja la comisión
+              para tickets B2B altos, Business+ elimina la comisión para CFOs
+              que prefieren previsibilidad y Contador opera multi-tenant sin
+              cobrar sobre el flujo de sus clientes.
+            </p>
           </div>
         </div>
       </section>
