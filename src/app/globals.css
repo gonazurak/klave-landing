@@ -1242,6 +1242,7 @@ input {
     display: grid;
     grid-template-columns: 32px minmax(0, 210px);
     justify-content: center;
+    justify-items: start;
     min-height: 52px;
     text-align: left;
   }
