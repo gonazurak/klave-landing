@@ -1239,12 +1239,12 @@ input {
   }
 
   .value-strip span {
-    display: grid;
-    grid-template-columns: 32px minmax(0, 210px);
+    display: flex;
     justify-content: center;
-    justify-items: start;
+    gap: 14px;
     min-height: 52px;
-    text-align: left;
+    padding-inline: 28px;
+    text-align: center;
   }
 
   .dashboard-main,
