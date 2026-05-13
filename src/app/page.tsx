@@ -15,9 +15,12 @@ import {
   Zap,
 } from "lucide-react";
 import Image from "next/image";
+import { ROICalculator } from "./roi-calculator";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const logoSrc = `${basePath}/brand/klave-logo-inverse-transparent.png`;
+const privacyHref = `${basePath}/privacidad/`;
+const termsHref = `${basePath}/terminos/`;
 
 const metrics = [
   { label: "Macro", value: "$32,8M", detail: "Cuenta principal", trend: "+12,4%" },
@@ -58,6 +61,15 @@ const bottomBenefits = [
   { icon: Clock3, title: "Visibilidad en tiempo real" },
   { icon: BanknoteArrowDown, title: "Pagos automáticos" },
   { icon: ReceiptText, title: "Conciliación con tu ERP" },
+];
+
+const integrations = [
+  { name: "BIND", detail: "CVUs, transferencias, ECHEQ y cuentas API-first" },
+  { name: "Bejerman", detail: "Conciliación e imputación para POC inicial" },
+  { name: "Xubio", detail: "Sincronización contable para PyMEs digitales" },
+  { name: "Tango", detail: "ERP argentino para empresas B2B tradicionales" },
+  { name: "AFIP", detail: "Facturas, CUITs y datos fiscales" },
+  { name: "Comafi", detail: "Segundo banco candidato para estrategia multi-banco" },
 ];
 
 const plans = [
@@ -105,6 +117,39 @@ const plans = [
     customers: "50 sub-clientes",
     payments: "Ilimitado",
     bestFor: "Estudios contables multi-empresa.",
+  },
+];
+
+const faqs = [
+  {
+    question: "¿Necesito cambiar de banco?",
+    answer:
+      "No. Klave está pensado como capa de tesorería multi-banco. BIND es el primer proveedor por API, y la estrategia contempla sumar otros bancos.",
+  },
+  {
+    question: "¿Klave toca o custodia la plata?",
+    answer:
+      "La dirección actual es pure SaaS: Klave no custodia fondos. Las cuentas, APIs y validaciones bancarias quedan en el banco del cliente.",
+  },
+  {
+    question: "¿Cómo identifica quién pagó?",
+    answer:
+      "A cada cliente se le asigna un CVU o identificador único. Cuando entra una transferencia, el destino permite matchear cliente, factura y estado de cobranza.",
+  },
+  {
+    question: "¿Cuándo va a estar disponible?",
+    answer:
+      "Primero se abren POCs privados con empresas que tengan cobranza recurrente, varias cuentas, ECHEQs o conciliación manual contra ERP.",
+  },
+  {
+    question: "¿Sirve para contadores?",
+    answer:
+      "Sí. El roadmap contempla multi-tenant para estudios contables que administran varias PyMEs y necesitan una vista consolidada.",
+  },
+  {
+    question: "¿Qué pasa con ECHEQ y pagos salientes?",
+    answer:
+      "El MVP los considera parte de tesorería digital: cola de ECHEQs, reglas de pagos, aprobaciones y trazabilidad desde una misma vista.",
   },
 ];
 
@@ -159,13 +204,14 @@ export default function Home() {
             <nav className="nav-links" aria-label="Principal">
               <a href="#producto">Producto</a>
               <a href="#flujo">Cómo funciona</a>
+              <a href="#calculadora">ROI</a>
               <a href="#integraciones">Integraciones</a>
               <a href="#seguridad">Seguridad</a>
               <a href="#pricing">Precios</a>
               <a href="#waitlist">Contacto</a>
             </nav>
             <div className="header-actions">
-              <a className="login-link" href="#waitlist">Iniciar sesión</a>
+              <a className="login-link" href="#waitlist">Hablar con fundador</a>
               <a className="nav-cta" href="#waitlist">Lista de espera</a>
             </div>
           </div>
@@ -174,7 +220,7 @@ export default function Home() {
         <div className="hero-grid">
           <div className="hero-copy" id="top">
             <h1>
-              La tesorería digital <span>de tu empresa</span>
+              La tesorería digital <span>de tu PyME</span>
             </h1>
             <p>
               Cobrá identificado, pagá automatizado, conciliá con tu ERP.
@@ -318,7 +364,7 @@ export default function Home() {
                   </div>
                   <CashFlowChart />
                 </section>
-                <section className="sync-panel" id="integraciones">
+                <section className="sync-panel">
                   <div className="panel-heading">
                     <span>Integraciones y sincronización</span>
                     <RefreshCw size={16} />
@@ -399,6 +445,25 @@ export default function Home() {
         </div>
       </section>
 
+      <ROICalculator />
+
+      <section className="integrations-band" id="integraciones">
+        <div className="section-inner integrations-layout">
+          <div className="section-heading">
+            <span className="section-kicker">Integraciones</span>
+            <h2>Banco, ERP y contabilidad conectados a una misma operación.</h2>
+          </div>
+          <div className="integration-grid">
+            {integrations.map((integration) => (
+              <article className="integration-card" key={integration.name}>
+                <strong>{integration.name}</strong>
+                <p>{integration.detail}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="pricing-band" id="pricing">
         <div className="section-inner pricing-layout">
           <div className="pricing-copy">
@@ -469,6 +534,23 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="faq-band" id="faq">
+        <div className="section-inner faq-layout">
+          <div className="section-heading">
+            <span className="section-kicker">FAQ</span>
+            <h2>Preguntas que importan antes de entrar al POC.</h2>
+          </div>
+          <div className="faq-grid">
+            {faqs.map((faq) => (
+              <article className="faq-item" key={faq.question}>
+                <h3>{faq.question}</h3>
+                <p>{faq.answer}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="waitlist-band" id="waitlist">
         <div className="section-inner waitlist-panel">
           <div>
@@ -478,17 +560,86 @@ export default function Home() {
               Ideal para empresas con cobranza recurrente, múltiples cuentas,
               ECHEQs o conciliación manual contra ERP.
             </p>
+            <p className="waitlist-note">
+              Acceso temprano con condiciones preferenciales para los primeros
+              casos privados.
+            </p>
           </div>
-          <form className="signup-form">
+          <form
+            action="mailto:hola@klave.com.ar"
+            className="signup-form"
+            encType="text/plain"
+            method="post"
+          >
+            <input
+              aria-hidden="true"
+              autoComplete="off"
+              name="website"
+              tabIndex={-1}
+              type="text"
+              style={{ display: "none" }}
+            />
+            <input name="utm_source" type="hidden" />
+            <input name="utm_medium" type="hidden" />
+            <input name="utm_campaign" type="hidden" />
+            <input name="utm_term" type="hidden" />
+            <input name="utm_content" type="hidden" />
+            <input name="referrer" type="hidden" />
+            <label>
+              Nombre
+              <input name="name" placeholder="Nombre y apellido" type="text" required />
+            </label>
             <label>
               Email laboral
-              <input type="email" placeholder="gonzalo@empresa.com" />
+              <input name="email" type="email" placeholder="gonzalo@empresa.com" required />
             </label>
             <label>
               Empresa
-              <input type="text" placeholder="Nombre de la empresa" />
+              <input name="company_name" type="text" placeholder="Nombre de la empresa" required />
             </label>
-            <button type="button">
+            <label>
+              CUIT
+              <input name="cuit" inputMode="numeric" placeholder="30-XXXXXXXX-X" type="text" />
+            </label>
+            <label>
+              Tamaño de cartera
+              <select name="client_count_range" defaultValue="">
+                <option disabled value="">Seleccionar rango</option>
+                <option value="0-10">0-10 clientes</option>
+                <option value="10-50">10-50 clientes</option>
+                <option value="50-200">50-200 clientes</option>
+                <option value="200+">200+ clientes</option>
+              </select>
+            </label>
+            <label>
+              Perfil
+              <select name="vertical" defaultValue="">
+                <option disabled value="">Seleccionar perfil</option>
+                <option value="profesional">Profesional independiente</option>
+                <option value="pyme_b2b">PyME B2B</option>
+                <option value="contador">Estudio contable</option>
+                <option value="otro">Otro</option>
+              </select>
+            </label>
+            <label>
+              Volumen mensual
+              <select name="monthly_volume_range" defaultValue="">
+                <option disabled value="">Seleccionar volumen</option>
+                <option value="0-5m">Hasta $5M/mes</option>
+                <option value="5-20m">$5M-$20M/mes</option>
+                <option value="20-50m">$20M-$50M/mes</option>
+                <option value="50m+">$50M+/mes</option>
+              </select>
+            </label>
+            <label className="full-field">
+              Qué querés resolver
+              <textarea
+                name="message"
+                placeholder="Conciliación manual, múltiples cuentas, ECHEQs, ERP, pagos a proveedores..."
+                rows={3}
+              />
+            </label>
+            <button type="submit">
               Unirme a la lista
               <Zap size={18} />
             </button>
@@ -505,7 +656,11 @@ export default function Home() {
           <nav aria-label="Footer">
             <a href="#producto">Producto</a>
             <a href="#flujo">Cómo funciona</a>
+            <a href="#calculadora">ROI</a>
             <a href="#pricing">Precios</a>
+            <a href="#faq">FAQ</a>
+            <a href={privacyHref}>Privacidad</a>
+            <a href={termsHref}>Términos</a>
             <a href="#waitlist">Contacto</a>
           </nav>
         </div>

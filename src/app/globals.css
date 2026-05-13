@@ -37,7 +37,9 @@ a {
 }
 
 button,
-input {
+input,
+select,
+textarea {
   font: inherit;
 }
 
@@ -741,7 +743,10 @@ input {
 .problem-band,
 .flow-band,
 .pricing-band,
-.waitlist-band {
+.waitlist-band,
+.roi-band,
+.integrations-band,
+.faq-band {
   background: var(--paper);
   color: var(--ink);
 }
@@ -779,7 +784,10 @@ input {
 .pricing-layout p,
 .problem-copy p,
 .waitlist-panel p,
-.flow-step p {
+.flow-step p,
+.roi-copy p,
+.integration-card p,
+.faq-item p {
   color: #526175;
   line-height: 1.65;
 }
@@ -852,7 +860,7 @@ input {
   position: relative;
   min-height: 188px;
   border-color: #d8e2ee;
-  border-radius: 22px;
+  border-radius: 8px;
   background: #f8fbfd;
   padding: 24px;
 }
@@ -881,6 +889,264 @@ input {
   background: white;
   color: #107650;
   transform: translateY(-50%);
+}
+
+.roi-band {
+  background: #f6f9fc;
+}
+
+.roi-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.58fr) minmax(0, 1.42fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.roi-copy {
+  position: sticky;
+  top: 24px;
+}
+
+.roi-copy p {
+  max-width: 540px;
+  margin: 22px 0 0;
+}
+
+.profile-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.profile-grid button,
+.advanced-toggle,
+.reset-button {
+  border: 1px solid #d6e3ec;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.profile-grid button {
+  min-height: 46px;
+  background: white;
+  color: #223955;
+  text-align: left;
+  padding: 0 16px;
+}
+
+.profile-grid button.active {
+  border-color: rgba(61, 220, 151, 0.8);
+  background: #e8fbf3;
+  color: var(--navy);
+}
+
+.roi-tool {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.78fr);
+  gap: 14px;
+}
+
+.calculator-inputs,
+.roi-results {
+  border: 1px solid #d6e3ec;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 18px 44px rgba(10, 37, 64, 0.06);
+}
+
+.calculator-inputs {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.calculator-inputs label,
+.advanced-grid label {
+  display: grid;
+  gap: 10px;
+}
+
+.calculator-inputs label span,
+.advanced-grid label span {
+  color: #526175;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.calculator-inputs label strong,
+.advanced-grid label strong {
+  color: var(--navy);
+  font-size: 20px;
+}
+
+.calculator-inputs input[type="range"] {
+  accent-color: var(--aqua);
+  width: 100%;
+}
+
+.advanced-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 46px;
+  background: #f6f9fc;
+  color: var(--navy);
+  padding: 0 14px;
+}
+
+.advanced-toggle svg {
+  color: #107650;
+}
+
+.advanced-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  border-top: 1px solid #e2ebf1;
+  padding-top: 18px;
+}
+
+.advanced-grid label strong {
+  font-size: 16px;
+}
+
+.roi-results {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.result-card,
+.roi-balance,
+.cost-breakdown,
+.cost-breakdown div {
+  border-radius: 8px;
+}
+
+.result-card {
+  border: 1px solid #e2ebf1;
+  background: #f8fbfd;
+  padding: 16px;
+}
+
+.result-card span,
+.roi-balance span {
+  display: block;
+  color: #526175;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.result-card strong,
+.roi-balance strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--navy);
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.05;
+}
+
+.result-card small,
+.roi-balance small {
+  display: block;
+  margin-top: 8px;
+  color: #526175;
+  line-height: 1.45;
+}
+
+.result-card.highlighted {
+  border-color: rgba(61, 220, 151, 0.52);
+  background: #e8fbf3;
+}
+
+.roi-balance {
+  background: var(--navy);
+  color: white;
+  padding: 18px;
+}
+
+.roi-balance span,
+.roi-balance small {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.roi-balance strong {
+  color: white;
+}
+
+.cost-breakdown {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.cost-breakdown div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: #f6f9fc;
+  padding: 11px 12px;
+}
+
+.cost-breakdown dt {
+  color: #526175;
+  font-size: 12px;
+}
+
+.cost-breakdown dd {
+  margin: 0;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 750;
+  text-align: right;
+}
+
+.reset-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  background: white;
+  color: var(--navy);
+}
+
+.integrations-band {
+  background: white;
+}
+
+.integrations-layout {
+  display: grid;
+  gap: 34px;
+}
+
+.integration-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.integration-card {
+  min-height: 156px;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #f8fbfd;
+  padding: 22px;
+}
+
+.integration-card strong {
+  display: block;
+  color: var(--navy);
+  font-size: 22px;
+}
+
+.integration-card p {
+  margin: 14px 0 0;
+  font-size: 14px;
 }
 
 .pricing-band {
@@ -972,8 +1238,14 @@ input {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.waitlist-note {
+  color: rgba(61, 220, 151, 0.9) !important;
+  font-weight: 650;
+}
+
 .signup-form {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -984,19 +1256,38 @@ input {
   font-size: 13px;
 }
 
-.signup-form input {
+.signup-form input,
+.signup-form select,
+.signup-form textarea {
   width: 100%;
   min-height: 54px;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 16px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.08);
   color: white;
   outline: none;
   padding: 0 16px;
 }
 
-.signup-form input:focus {
+.signup-form textarea {
+  min-height: 92px;
+  padding: 14px 16px;
+  resize: vertical;
+}
+
+.signup-form select option {
+  color: #071827;
+}
+
+.signup-form input:focus,
+.signup-form select:focus,
+.signup-form textarea:focus {
   border-color: rgba(61, 220, 151, 0.7);
+}
+
+.full-field,
+.signup-form button {
+  grid-column: 1 / -1;
 }
 
 .signup-form button {
@@ -1006,11 +1297,48 @@ input {
   gap: 10px;
   min-height: 54px;
   border: 0;
-  border-radius: 16px;
+  border-radius: 8px;
   background: var(--aqua);
   color: #032012;
   cursor: pointer;
   font-weight: 700;
+}
+
+.faq-band {
+  background: #f6f9fc;
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.38fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.faq-item {
+  min-height: 178px;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: white;
+  padding: 22px;
+  box-shadow: 0 14px 34px rgba(10, 37, 64, 0.045);
+}
+
+.faq-item h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 12px 0 0;
+  font-size: 14px;
 }
 
 .site-footer {
@@ -1060,11 +1388,72 @@ input {
   color: white;
 }
 
+.legal-page {
+  min-height: 100vh;
+  background: #f6f9fc;
+  color: var(--ink);
+}
+
+.legal-header {
+  display: flex;
+  align-items: center;
+  min-height: 96px;
+  border-bottom: 1px solid #d8e2ee;
+  background: var(--navy-900);
+  padding: 0 max(24px, calc((100vw - 920px) / 2));
+}
+
+.legal-header img {
+  display: block;
+  width: 156px;
+  height: auto;
+}
+
+.legal-content {
+  width: min(920px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 72px 0 96px;
+}
+
+.legal-content h1 {
+  margin: 16px 0 18px;
+  color: var(--navy);
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.legal-content h2 {
+  margin: 38px 0 12px;
+  color: var(--navy);
+  font-size: 24px;
+}
+
+.legal-content p {
+  max-width: 760px;
+  color: #526175;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.legal-content a {
+  color: #087a4d;
+  font-weight: 700;
+}
+
+.legal-note {
+  border-left: 4px solid var(--aqua);
+  background: white;
+  padding: 18px 20px;
+}
+
 @media (max-width: 1180px) {
   .hero-grid,
   .problem-grid,
   .pricing-layout,
-  .waitlist-panel {
+  .waitlist-panel,
+  .roi-layout,
+  .faq-layout {
     grid-template-columns: 1fr;
   }
 
@@ -1103,6 +1492,10 @@ input {
     position: static;
   }
 
+  .roi-copy {
+    position: static;
+  }
+
   .flow-arrow {
     display: none;
   }
@@ -1135,6 +1528,12 @@ input {
 
   .pricing-table {
     min-width: 900px;
+  }
+
+  .roi-tool,
+  .integration-grid,
+  .faq-grid {
+    grid-template-columns: 1fr;
   }
 
   .table-list {
@@ -1250,7 +1649,9 @@ input {
   .dashboard-main,
   .dashboard-bottom,
   .pain-grid,
-  .flow-grid {
+  .flow-grid,
+  .signup-form,
+  .advanced-grid {
     grid-template-columns: 1fr;
     gap: 10px;
   }
