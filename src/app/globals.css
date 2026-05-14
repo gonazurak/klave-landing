@@ -989,11 +989,14 @@ textarea {
 .advanced-toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  min-height: 46px;
+  justify-content: center;
+  justify-self: start;
+  gap: 8px;
+  min-height: 38px;
   background: #f6f9fc;
   color: var(--navy);
-  padding: 0 14px;
+  padding: 0 12px;
+  font-size: 13px;
 }
 
 .advanced-toggle svg {
