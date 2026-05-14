@@ -4,9 +4,9 @@ import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://klave.com.ar";
 const siteName = "Klave";
-const title = "Klave | Tesorería digital para PyMEs B2B";
+const title = "Klave | Tesorería digital para empresas";
 const description =
-  "Klave está en etapa pre-MVP: una lista de espera para validar software de tesorería digital, cobranza identificada, pagos y conciliación para PyMEs B2B argentinas.";
+  "Klave está en etapa pre-MVP: una lista de espera para validar software de tesorería digital, cobranza identificada, pagos y conciliación para empresas argentinas.";
 const brandImage = "/brand/klave-logo-primary.png";
 
 const lexend = Lexend({
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "tesorería digital",
     "cobranza identificada",
     "conciliación bancaria",
-    "PyMEs B2B",
+    "empresas",
     "Argentina",
     "lista de espera",
   ],

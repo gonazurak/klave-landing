@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Calculator, RotateCcw } from "lucide-react";
 
-type ProfileKey = "profesional" | "pyme" | "contador" | "multiempresa";
+type ProfileKey = "profesional" | "empresa" | "contador" | "multiempresa";
 type PlanKey = "starter" | "professional" | "business" | "businessPlus" | "accountant";
 
 type CalculatorTrackingPayload = {
@@ -16,12 +16,12 @@ type CalculatorTrackingPayload = {
 };
 
 const BUSINESS_ASSUMPTIONS = {
-  arsPerUsd: 1000,
+  arsPerUsd: 1500,
   weeksPerMonth: 4.33,
   defaultHourCostARS: 3500,
   defaultErrorCostARS: 3000,
   defaultCapitalCostPct: 90,
-  defaultBankCommissionPct: 0.5,
+  defaultBankCommissionPct: 0.3,
   expectedAdminReductionPct: 90,
   expectedErrorReductionPct: 90,
   expectedDsoReductionDays: 7,
@@ -71,8 +71,8 @@ const profiles: Record<
     monthlyErrors: 4,
     dsoDays: 28,
   },
-  pyme: {
-    label: "PyME B2B",
+  empresa: {
+    label: "Empresa",
     clients: 150,
     volume: 25_000_000,
     transferPct: 80,
@@ -145,14 +145,14 @@ function trackCalculatorUsed(payload: CalculatorTrackingPayload) {
 }
 
 export function ROICalculator() {
-  const [profile, setProfile] = useState<ProfileKey>("pyme");
-  const [clients, setClients] = useState(profiles.pyme.clients);
-  const [volume, setVolume] = useState(profiles.pyme.volume);
-  const [transferPct, setTransferPct] = useState(profiles.pyme.transferPct);
-  const [weeklyHours, setWeeklyHours] = useState(profiles.pyme.weeklyHours);
+  const [profile, setProfile] = useState<ProfileKey>("empresa");
+  const [clients, setClients] = useState(profiles.empresa.clients);
+  const [volume, setVolume] = useState(profiles.empresa.volume);
+  const [transferPct, setTransferPct] = useState(profiles.empresa.transferPct);
+  const [weeklyHours, setWeeklyHours] = useState(profiles.empresa.weeklyHours);
   const [hourCost, setHourCost] = useState<number>(BUSINESS_ASSUMPTIONS.defaultHourCostARS);
-  const [monthlyErrors, setMonthlyErrors] = useState(profiles.pyme.monthlyErrors);
-  const [dsoDays, setDsoDays] = useState(profiles.pyme.dsoDays);
+  const [monthlyErrors, setMonthlyErrors] = useState(profiles.empresa.monthlyErrors);
+  const [dsoDays, setDsoDays] = useState(profiles.empresa.dsoDays);
   const [capitalCostPct, setCapitalCostPct] = useState<number>(
     BUSINESS_ASSUMPTIONS.defaultCapitalCostPct,
   );
@@ -369,7 +369,7 @@ export function ROICalculator() {
                   />
                 </label>
                 <label>
-                  <span>DSO actual</span>
+                  <span>Días hasta pago identificado</span>
                   <strong>{dsoDays} días</strong>
                   <input
                     min="5"
@@ -410,13 +410,16 @@ export function ROICalculator() {
             <div className="result-card">
               <span>Hoy, estimado</span>
               <strong>{formatARS(results.totalToday)}</strong>
-              <small>{formatHours(results.monthlyAdminHours)} y DSO {dsoDays} días</small>
+              <small>
+                {formatHours(results.monthlyAdminHours)} y pago identificado a {dsoDays} días
+              </small>
             </div>
             <div className="result-card highlighted">
               <span>Escenario con Klave</span>
               <strong>{formatARS(results.totalWithKlave)}</strong>
               <small>
-                {results.plan.name}, {formatHours(results.newAdminHours)} y DSO {results.newDso} días
+                {results.plan.name}, {formatHours(results.newAdminHours)} y pago identificado a{" "}
+                {results.newDso} días
               </small>
             </div>
             <div className="roi-balance">
@@ -443,7 +446,8 @@ export function ROICalculator() {
             <p className="roi-assumptions">
               Supone USD {BUSINESS_ASSUMPTIONS.arsPerUsd.toLocaleString("es-AR")} de referencia,
               {` ${results.estimatedMonthlyPayments.toLocaleString("es-AR")} pagos/mes estimados `}
-              y mejoras operativas esperadas, no garantizadas.
+              y mejoras operativas esperadas. La transferencia es inmediata; estos días estiman la
+              demora comercial y operativa entre emitir la factura y ver el pago identificado.
             </p>
             <button className="reset-button" type="button" onClick={() => applyProfile(profile)}>
               <RotateCcw size={16} />

@@ -23,18 +23,18 @@ const privacyHref = `${basePath}/privacidad/`;
 const termsHref = `${basePath}/terminos/`;
 
 const metrics = [
-  { label: "Macro", value: "$32,8M", detail: "Cuenta principal", trend: "+12,4%" },
-  { label: "Galicia", value: "$18,6M", detail: "Cuenta operativa", trend: "+8,7%" },
-  { label: "BBVA", value: "$9,8M", detail: "Cuenta secundaria", trend: "+5,2%" },
-  { label: "Santander", value: "$4,1M", detail: "Cuenta pagos", trend: "+3,1%" },
+  { label: "Cuenta 1", value: "$32,8M", detail: "Cuenta principal", trend: "+12,4%" },
+  { label: "Cuenta 2", value: "$18,6M", detail: "Cuenta operativa", trend: "+8,7%" },
+  { label: "Cuenta 3", value: "$9,8M", detail: "Cuenta secundaria", trend: "+5,2%" },
+  { label: "Cuenta 4", value: "$4,1M", detail: "Cuenta pagos", trend: "+3,1%" },
   { label: "Total disponible", value: "$65,3M", detail: "En 4 cuentas", trend: "+9,8%" },
 ];
 
 const flows = [
-  { icon: WalletCards, title: "CVU único", text: "Cada cliente paga a su identificador." },
-  { icon: ReceiptText, title: "Match automático", text: "Klave reconoce quién pagó sin comprobantes." },
-  { icon: FileCheck2, title: "ERP conciliado", text: "La cobranza queda lista para imputar." },
-  { icon: BanknoteArrowDown, title: "Pagos salientes", text: "Proveedores y reglas desde una vista." },
+  { icon: WalletCards, title: "Cobrás claro", text: "Cada ingreso llega con contexto para entender qué pasó." },
+  { icon: ReceiptText, title: "Ordenás la caja", text: "Saldos, cobros y pendientes viven en una vista única." },
+  { icon: FileCheck2, title: "Cerrás más rápido", text: "Menos cruces manuales y menos seguimiento por mensajes." },
+  { icon: BanknoteArrowDown, title: "Pagás con control", text: "Preparás egresos y vencimientos sin perder trazabilidad." },
 ];
 
 const painPoints = [
@@ -44,15 +44,15 @@ const painPoints = [
   },
   {
     title: "Horas conciliando pagos",
-    text: "El equipo pierde tiempo cruzando banco, ERP y planillas.",
+    text: "El equipo pierde tiempo cruzando cobros, pagos y planillas.",
   },
   {
     title: "Cuentas y bancos separados",
     text: "La caja real queda repartida entre portales y extractos.",
   },
   {
-    title: "ECHEQs fuera del tablero",
-    text: "Cheques, vencimientos y aprobaciones viven en otro circuito.",
+    title: "Pendientes fuera del tablero",
+    text: "Vencimientos, aprobaciones y seguimiento viven en otro circuito.",
   },
 ];
 
@@ -60,16 +60,16 @@ const bottomBenefits = [
   { icon: Landmark, title: "Multi-banco" },
   { icon: Clock3, title: "Visibilidad en tiempo real" },
   { icon: BanknoteArrowDown, title: "Pagos automáticos" },
-  { icon: ReceiptText, title: "Conciliación con tu ERP" },
+  { icon: ReceiptText, title: "Cierre operativo" },
 ];
 
 const integrations = [
-  { name: "BIND", detail: "CVUs, transferencias, ECHEQ y cuentas API-first" },
-  { name: "Bejerman", detail: "Conciliación e imputación para POC inicial" },
-  { name: "Xubio", detail: "Sincronización contable para PyMEs digitales" },
-  { name: "Tango", detail: "ERP argentino para empresas B2B tradicionales" },
-  { name: "AFIP", detail: "Facturas, CUITs y datos fiscales" },
-  { name: "Comafi", detail: "Segundo banco candidato para estrategia multi-banco" },
+  { name: "Cuentas", detail: "Vista consolidada para seguir saldos y movimientos sin saltar entre portales." },
+  { name: "Cobros", detail: "Seguimiento más claro de ingresos, pendientes y pagos sin identificar." },
+  { name: "Pagos", detail: "Preparación de egresos, vencimientos y aprobaciones desde el mismo tablero." },
+  { name: "Conciliación", detail: "Menos planillas y menos tareas repetidas al cerrar la operación diaria." },
+  { name: "Reportes", detail: "Información lista para revisar caja, evolución y próximos compromisos." },
+  { name: "Equipo", detail: "Un lugar compartido para tesorería, dirección y asesoría contable." },
 ];
 
 const plans = [
@@ -98,7 +98,7 @@ const plans = [
     cap: "USD 20",
     customers: "200",
     payments: "Ilimitado",
-    bestFor: "Empresas B2B con ERP, ECHEQ y API.",
+    bestFor: "Empresas con mayor operación mensual.",
   },
   {
     name: "Business+",
@@ -122,34 +122,19 @@ const plans = [
 
 const faqs = [
   {
-    question: "¿Necesito cambiar de banco?",
+    question: "¿Para quién es Klave?",
     answer:
-      "No. Klave está pensado como capa de tesorería multi-banco. BIND es el primer proveedor por API, y la estrategia contempla sumar otros bancos.",
+      "Para empresas, profesionales y estudios contables que quieren ordenar cobros, pagos y caja diaria.",
   },
   {
-    question: "¿Klave toca o custodia la plata?",
+    question: "¿Tengo que cambiar mi operación?",
     answer:
-      "La dirección actual es pure SaaS: Klave no custodia fondos. Las cuentas, APIs y validaciones bancarias quedan en el banco del cliente.",
+      "No de entrada. La idea es empezar con un diagnóstico corto y adaptar el piloto a tu forma actual de trabajar.",
   },
   {
-    question: "¿Cómo identifica quién pagó?",
+    question: "¿Cuándo puedo probarlo?",
     answer:
-      "A cada cliente se le asigna un CVU o identificador único. Cuando entra una transferencia, el destino permite matchear cliente, factura y estado de cobranza.",
-  },
-  {
-    question: "¿Cuándo va a estar disponible?",
-    answer:
-      "Primero se abren POCs privados con empresas que tengan cobranza recurrente, varias cuentas, ECHEQs o conciliación manual contra ERP.",
-  },
-  {
-    question: "¿Sirve para contadores?",
-    answer:
-      "Sí. El roadmap contempla multi-tenant para estudios contables que administran varias PyMEs y necesitan una vista consolidada.",
-  },
-  {
-    question: "¿Qué pasa con ECHEQ y pagos salientes?",
-    answer:
-      "El MVP los considera parte de tesorería digital: cola de ECHEQs, reglas de pagos, aprobaciones y trazabilidad desde una misma vista.",
+      "Estamos abriendo acceso temprano con casos privados. Si tu operación encaja, te contactamos para avanzar.",
   },
 ];
 
@@ -205,13 +190,12 @@ export default function Home() {
               <a href="#producto">Producto</a>
               <a href="#flujo">Cómo funciona</a>
               <a href="#calculadora">ROI</a>
-              <a href="#integraciones">Integraciones</a>
-              <a href="#seguridad">Seguridad</a>
+              <a href="#integraciones">Conexiones</a>
+              <a href="#control">Control</a>
               <a href="#pricing">Precios</a>
               <a href="#waitlist">Contacto</a>
             </nav>
             <div className="header-actions">
-              <a className="login-link" href="#waitlist">Hablar con fundador</a>
               <a className="nav-cta" href="#waitlist">Lista de espera</a>
             </div>
           </div>
@@ -220,11 +204,10 @@ export default function Home() {
         <div className="hero-grid">
           <div className="hero-copy" id="top">
             <h1>
-              La tesorería digital <span>de tu PyME</span>
+              La tesorería digital <span>de tu empresa</span>
             </h1>
             <p>
-              Cobrá identificado, pagá automatizado, conciliá con tu ERP.
-              Multi-banco.
+              Ordená cobros, pagos y caja diaria desde una misma vista.
             </p>
             <div className="hero-actions">
               <a className="primary-button" href="#waitlist">
@@ -297,7 +280,7 @@ export default function Home() {
                   <div className="table-list">
                     {[
                       ["Cliente recurrente", "$ 1.250.000,00", "Acreditado"],
-                      ["Factura B2B", "$ 850.000,00", "Acreditado"],
+                      ["Factura recurrente", "$ 850.000,00", "Acreditado"],
                       ["Abono mensual", "$ 620.000,00", "Acreditado"],
                       ["Orden comercial", "$ 415.000,00", "Acreditado"],
                       ["Anticipo recibido", "$ 230.000,00", "Acreditado"],
@@ -335,16 +318,16 @@ export default function Home() {
 
                 <section className="table-panel echeq-panel">
                   <div className="panel-heading">
-                    <span>Cola ECHEQ</span>
+                    <span>Pendientes operativos</span>
                     <CircleDollarSign size={15} />
                   </div>
                   <div className="table-list">
                     {[
-                      ["ECHEQ a vencer", "$ 1.200.000,00", "Pendiente"],
-                      ["ECHEQ recibido", "$ 850.000,00", "Pendiente"],
-                      ["ECHEQ para firmar", "$ 650.000,00", "Para firmar"],
-                      ["ECHEQ diferido", "$ 300.000,00", "Para firmar"],
-                      ["ECHEQ menor", "$ 210.000,00", "Para firmar"],
+                      ["Vencimiento próximo", "$ 1.200.000,00", "Pendiente"],
+                      ["Cobro por revisar", "$ 850.000,00", "Pendiente"],
+                      ["Pago por aprobar", "$ 650.000,00", "Revisar"],
+                      ["Egreso diferido", "$ 300.000,00", "Revisar"],
+                      ["Movimiento menor", "$ 210.000,00", "Revisar"],
                     ].map(([name, amount, status]) => (
                       <div className="table-row" key={name}>
                         <span>{name}</span>
@@ -369,10 +352,10 @@ export default function Home() {
                     <span>Integraciones y sincronización</span>
                     <RefreshCw size={16} />
                   </div>
-                  {["ERP", "Bancos", "Contabilidad", "API"].map((item) => (
+                  {["Cuentas", "Cobros", "Pagos", "Reportes"].map((item) => (
                     <div className="sync-row" key={item}>
                       <span>{item}</span>
-                      <strong>Conectado</strong>
+                      <strong>Al día</strong>
                     </div>
                   ))}
                 </section>
@@ -394,7 +377,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="problem-band" id="seguridad">
+      <section className="problem-band" id="control">
         <div className="section-inner problem-grid">
           <div className="problem-copy">
             <span className="section-kicker">Tesorería operativa</span>
@@ -450,8 +433,8 @@ export default function Home() {
       <section className="integrations-band" id="integraciones">
         <div className="section-inner integrations-layout">
           <div className="section-heading">
-            <span className="section-kicker">Integraciones</span>
-            <h2>Banco, ERP y contabilidad conectados a una misma operación.</h2>
+            <span className="section-kicker">Conexiones</span>
+            <h2>Tu operación de tesorería, más ordenada y fácil de seguir.</h2>
           </div>
           <div className="integration-grid">
             {integrations.map((integration) => (
@@ -471,7 +454,7 @@ export default function Home() {
             <h2>Planes pensados para validar rápido y crecer con volumen.</h2>
             <p>
               El modelo combina abono mensual con comisión decreciente, evitando
-              castigar operaciones B2B de ticket alto.
+              castigar operaciones de mayor volumen.
             </p>
           </div>
           <div className="pricing-table-wrap">
@@ -537,8 +520,8 @@ export default function Home() {
       <section className="faq-band" id="faq">
         <div className="section-inner faq-layout">
           <div className="section-heading">
-            <span className="section-kicker">FAQ</span>
-            <h2>Preguntas que importan antes de entrar al POC.</h2>
+            <span className="section-kicker">Dudas frecuentes</span>
+            <h2>Lo mínimo para saber si tiene sentido avanzar.</h2>
           </div>
           <div className="faq-grid">
             {faqs.map((faq) => (
@@ -557,8 +540,8 @@ export default function Home() {
             <span className="section-kicker">Waitlist privada</span>
             <h2>Entrá primero cuando abramos los POCs.</h2>
             <p>
-              Ideal para empresas con cobranza recurrente, múltiples cuentas,
-              ECHEQs o conciliación manual contra ERP.
+              Ideal para empresas con cobranza recurrente, operación manual o
+              poca visibilidad diaria de caja.
             </p>
             <p className="waitlist-note">
               Acceso temprano con condiciones preferenciales para los primeros
@@ -616,7 +599,7 @@ export default function Home() {
               <select name="vertical" defaultValue="" required>
                 <option disabled value="">Seleccionar perfil</option>
                 <option value="profesional">Profesional independiente</option>
-                <option value="pyme_b2b">PyME B2B</option>
+                <option value="empresa">Empresa</option>
                 <option value="contador">Estudio contable</option>
                 <option value="otro">Otro</option>
               </select>
@@ -635,7 +618,7 @@ export default function Home() {
               Qué querés resolver
               <textarea
                 name="message"
-                placeholder="Conciliación manual, múltiples cuentas, ECHEQs, ERP, pagos a proveedores..."
+                placeholder="Contanos brevemente qué querés ordenar de tu tesorería..."
                 rows={3}
               />
             </label>

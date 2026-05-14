@@ -41,8 +41,8 @@ export default function PrivacyPage() {
         <h2>Finalidad</h2>
         <p>
           Usamos estos datos para responder consultas, priorizar POCs privados,
-          validar demanda y entender necesidades de tesorería digital en PyMEs
-          B2B argentinas.
+          validar demanda y entender necesidades de tesorería digital en
+          empresas argentinas.
         </p>
 
         <h2>Base de datos y terceros</h2>
