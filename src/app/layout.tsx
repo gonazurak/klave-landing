@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://klave.com.ar";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.klave.com.ar";
 const siteName = "Klave";
-const title = "Klave | Tesorería digital para empresas";
+const title = "Tesorería Digital";
 const description =
   "Klave está en etapa pre-MVP: una lista de espera para validar software de tesorería digital, cobranza identificada, pagos y conciliación para empresas argentinas.";
 const brandImage = "/brand/klave-logo-primary.png";
+const iconImage = "/brand/klave-icon-primary.svg";
 
 const lexend = Lexend({
   variable: "--font-lexend",
@@ -36,6 +37,11 @@ export const metadata: Metadata = {
   publisher: siteName,
   alternates: {
     canonical: "/",
+  },
+  icons: {
+    icon: iconImage,
+    shortcut: iconImage,
+    apple: iconImage,
   },
   openGraph: {
     title,

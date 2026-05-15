@@ -6,19 +6,19 @@ contexto de Klave si esta disponible y revisar `docs/OPERACION.md`.
 ## Contexto del producto
 
 Klave se presenta como "La tesoreria digital de tu empresa". La landing apunta a
-empresas B2B argentinas que necesitan cobrar identificado, pagar automatizado,
+empresas argentinas que necesitan cobrar identificado, pagar automatizado,
 conciliar con ERP y tener visibilidad de caja multi-banco. No describir el
-producto como billetera, banco, custodia de fondos ni plataforma para pymes
+producto como billetera, banco, custodia de fondos ni plataforma para empresas
 genericas.
 
 ## Stack y deploy
 
 - Next.js 16, React 19, Tailwind v4.
-- El sitio esta configurado como export estatico con `output: "export"` en
-  `next.config.ts`.
-- GitHub Pages publica desde el workflow `.github/workflows/pages.yml`.
-- La URL productiva actual es `https://gonazurak.github.io/klave-landing/`.
-- Para Pages, el build usa `GITHUB_PAGES=true` y
+- Produccion corre en Vercel con build normal de Next.js.
+- GitHub Pages queda como compatibilidad estatica legacy desde el workflow
+  `.github/workflows/pages.yml`.
+- La URL productiva actual es `https://www.klave.com.ar/`.
+- Para el build estatico legacy de Pages, usar `GITHUB_PAGES=true` y
   `NEXT_PUBLIC_BASE_PATH=/klave-landing`.
 
 ## Comandos base
@@ -27,7 +27,8 @@ genericas.
 pnpm install
 pnpm dev --port 3000
 pnpm lint
-GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/klave-landing pnpm build
+pnpm build
+pnpm dlx vercel --prod
 ```
 
 ## Proceso de cambio
@@ -36,15 +37,17 @@ GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/klave-landing pnpm build
 2. Leer los archivos antes de editar. Para UI, los archivos principales son
    `src/app/page.tsx` y `src/app/globals.css`.
 3. Hacer cambios acotados. No editar `out/` manualmente.
-4. Validar con `pnpm lint` y, si el cambio afecta layout, con build de Pages.
+4. Validar con `pnpm lint` y `pnpm build`.
 5. Revisar visualmente desktop y mobile en local antes de entregar.
-6. Commit y push a `main` si el usuario espera ver el cambio publicado.
-7. Verificar el workflow de GitHub Pages con `gh run list` y `gh run watch`.
+6. Desplegar a Vercel si el usuario espera ver el cambio publicado.
+7. Verificar la URL productiva en Vercel.
 
 ## Guardrails visuales actuales
 
 - Mantener la version oscura del concepto visual.
-- Usar el logo real exportado de Figma desde `public/brand/`.
+- Usar el logo real exportado de Figma. La fuente compartida vive en
+  `../assets/figma/brand/logos/`; `public/brand/` es la copia runtime que sirve
+  la landing.
 - En header y footer oscuros, usar `klave-logo-inverse-transparent.png`.
 - El hero debe decir "La tesoreria digital de tu empresa".
 - Las tres pills del hero deben quedar centradas como grupo icono + texto dentro
@@ -60,8 +63,6 @@ GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/klave-landing pnpm build
 
 ## Limitaciones importantes
 
-El deploy actual es estatico. No se puede depender de Server Actions ni de
-backend runtime en GitHub Pages. Si se implementa waitlist real, formularios con
-persistencia o endpoints, primero hay que cambiar la estrategia de runtime o
-agregar un servicio externo aprobado por el usuario.
-
+La landing publica en Vercel, pero no agregar persistencia propia o formularios
+con backend sin decidir antes el runtime, las tablas, el rate limit y el
+servicio de email.

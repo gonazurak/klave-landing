@@ -5,27 +5,31 @@ validar y publicar la landing sin reconstruir decisiones ya tomadas.
 
 ## Estado actual
 
-- Repo local: `/Users/gzurakowski/workspace/intertransfer-api/klave-landing`.
+- Repo local: `klave-landing/` dentro del workspace actual.
 - Repo remoto: `https://github.com/gonazurak/klave-landing.git`.
-- Produccion: `https://gonazurak.github.io/klave-landing/`.
+- Produccion: `https://www.klave.com.ar/`.
 - Rama de deploy: `main`.
-- Hosting: GitHub Pages con GitHub Actions.
-- Build: export estatico de Next en `out/`.
+- Hosting: Vercel.
+- Build: Next.js normal en Vercel. GitHub Pages queda como compatibilidad
+  estatica legacy.
 
 ## Archivos importantes
 
 - `src/app/page.tsx`: contenido, estructura de secciones, pricing y footer.
 - `src/app/globals.css`: layout responsive, estilos visuales y ajustes mobile.
-- `public/brand/`: logos exportados desde Figma.
-- `next.config.ts`: `output: "export"`, `basePath` y `assetPrefix` para Pages.
-- `.github/workflows/pages.yml`: build y deploy a GitHub Pages.
+- `public/brand/`: copia runtime de los logos exportados desde Figma.
+- `next.config.ts`: build normal para Vercel; `output: "export"`, `basePath` y
+  `assetPrefix` solo cuando `GITHUB_PAGES=true`.
+- `.vercel/project.json`: link local al proyecto Vercel.
+- `.github/workflows/pages.yml`: build legacy de GitHub Pages si se conserva.
 - `README.md`: entrada breve del repo.
 - `AGENTS.md`: instrucciones rapidas para agentes.
 
 ## Assets de marca
 
-Los logos actuales fueron generados a partir del Figma de Klave y viven en
-`public/brand/`.
+Los logos actuales fueron generados a partir del Figma de Klave. La fuente
+compartida vive en `../assets/figma/brand/logos/`; la landing conserva una copia
+en `public/brand/` porque Next sirve assets publicos desde esa carpeta.
 
 Uso recomendado:
 
@@ -34,9 +38,16 @@ Uso recomendado:
 - `klave-logo-primary-transparent.png`: contextos claros si se agregan en el
   futuro.
 - Variantes con `brand-bg` o `dark-bg`: solo si se necesita el fondo incluido.
+- `klave-icon-primary.svg`: favicon y app icon default.
+- `klave-icon-dark.svg`, `klave-icon-inverse.svg`, `klave-icon-mono-navy.svg`
+  y `klave-icon-mono-white.svg`: variantes solo símbolo para superficies
+  específicas.
 
 No recrear el logo con texto HTML ni con SVG aproximado si el asset exportado
 resuelve el caso.
+
+Si se reemplaza un logo desde Figma, actualizar primero `../assets/figma/` y
+despues sincronizar la copia necesaria en `public/brand/`.
 
 ## Desarrollo local
 
@@ -67,7 +78,7 @@ http://localhost:3000/#pricing
 http://localhost:3000/#seguridad
 ```
 
-## Validacion antes de publicar
+## Validacion antes de publicar en Vercel
 
 Ejecutar lint:
 
@@ -75,13 +86,19 @@ Ejecutar lint:
 pnpm lint
 ```
 
-Ejecutar build igual que GitHub Pages:
+Ejecutar build normal:
+
+```bash
+pnpm build
+```
+
+Para validar compatibilidad estatica legacy de GitHub Pages:
 
 ```bash
 GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/klave-landing pnpm build
 ```
 
-Ese build debe generar `out/`. No editar `out/` a mano: es artefacto generado.
+No editar `out/` a mano: es artefacto generado.
 
 ## QA visual minimo
 
@@ -114,9 +131,31 @@ Puntos especificos ya corregidos y que no deben romperse:
 - La seccion de pasos de flujo debe mantenerse compacta en mobile. No volver a
   agrandar esas cajas salvo que el usuario lo pida explicitamente.
 
-## Deploy a GitHub Pages
+## Deploy a Vercel
 
-El deploy se dispara con push a `main` o manualmente desde GitHub Actions.
+El deploy productivo se hace contra el proyecto Vercel linkeado en
+`.vercel/project.json`.
+
+Publicar cambios:
+
+```bash
+git status --short
+git add <archivos-del-cambio>
+git commit -m "Describe el cambio"
+pnpm dlx vercel --prod
+```
+
+Verificar produccion:
+
+```bash
+curl -L -s https://www.klave.com.ar/ | rg "La tesoreria digital|klave-icon-primary"
+curl -I https://www.klave.com.ar/brand/klave-icon-primary.svg
+```
+
+## Deploy legacy a GitHub Pages
+
+El deploy legacy a GitHub Pages se dispara con push a `main` o manualmente desde
+GitHub Actions.
 
 Workflow:
 
@@ -135,7 +174,7 @@ El `basePath` es necesario porque GitHub Pages sirve el sitio bajo
 `/klave-landing/`. Si cambia el nombre del repo o se publica en un dominio
 custom, revisar `next.config.ts` y el workflow.
 
-Publicar cambios:
+Publicar cambios legacy:
 
 ```bash
 git status --short
@@ -146,7 +185,7 @@ git push
 
 Para cambios solo de documentacion, agregar solo los archivos de documentacion.
 
-## Verificacion de deploy
+## Verificacion del deploy legacy
 
 Listar la ultima corrida:
 
@@ -200,20 +239,26 @@ publica.
 
 ## Formularios y waitlist
 
-El deploy actual es estatico. GitHub Pages no ejecuta Server Actions ni endpoints
-de Next. Cualquier waitlist real con persistencia requiere antes una decision de
-runtime:
+La landing publica en Vercel, pero cualquier waitlist real con persistencia
+requiere antes una decision explicita de runtime y datos:
 
-- cambiar hosting a un entorno con servidor,
-- agregar una funcion/serverless externo,
-- o usar un servicio externo aprobado.
+- tabla o almacenamiento,
+- validacion,
+- honeypot,
+- rate limit,
+- email de confirmacion o notificacion.
 
-No gastar tiempo depurando Server Actions si el sitio sigue en
-`output: "export"` y GitHub Pages.
+No agregar Server Actions, endpoints o persistencia sin esa decision.
 
 ## Troubleshooting
 
-Si el sitio funciona local pero falla en GitHub Pages:
+Si el sitio funciona local pero falla en Vercel:
+
+- Ejecutar `pnpm build`.
+- Revisar `pnpm dlx vercel inspect <deployment-url>`.
+- Confirmar variables de entorno en Vercel si el cambio depende de runtime.
+
+Si el sitio funciona local pero falla en GitHub Pages legacy:
 
 - Ejecutar el build con las mismas variables del workflow.
 - Revisar rutas absolutas que ignoren `/klave-landing`.
