@@ -39,9 +39,8 @@ Uso recomendado:
   futuro.
 - Variantes con `brand-bg` o `dark-bg`: solo si se necesita el fondo incluido.
 - `klave-icon-primary.svg`: favicon y app icon default.
-- `klave-icon-dark.svg`, `klave-icon-inverse.svg`, `klave-icon-mono-navy.svg`
-  y `klave-icon-mono-white.svg`: variantes solo símbolo para superficies
-  específicas.
+- `klave-icon-dark.svg` y `klave-icon-inverse.svg`: variantes solo símbolo para
+  superficies específicas.
 
 No recrear el logo con texto HTML ni con SVG aproximado si el asset exportado
 resuelve el caso.
