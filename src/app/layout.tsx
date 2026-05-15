@@ -4,7 +4,7 @@ import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.klave.com.ar";
 const siteName = "Klave";
-const title = "Tesorería Digital";
+const title = "Klave | Tesorería Digital";
 const description =
   "Klave está en etapa pre-MVP: una lista de espera para validar software de tesorería digital, cobranza identificada, pagos y conciliación para empresas argentinas.";
 const brandImage = "/brand/klave-logo-primary.png";
