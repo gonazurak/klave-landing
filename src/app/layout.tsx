@@ -8,7 +8,7 @@ const title = "Tesorería Digital";
 const description =
   "Klave está en etapa pre-MVP: una lista de espera para validar software de tesorería digital, cobranza identificada, pagos y conciliación para empresas argentinas.";
 const brandImage = "/brand/klave-logo-primary.png";
-const iconImage = "/brand/klave-icon-primary.svg";
+const iconImage = "/brand/klave-icon-dark.svg";
 
 const lexend = Lexend({
   variable: "--font-lexend",

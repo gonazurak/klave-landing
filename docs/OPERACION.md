@@ -38,9 +38,9 @@ Uso recomendado:
 - `klave-logo-primary-transparent.png`: contextos claros si se agregan en el
   futuro.
 - Variantes con `brand-bg` o `dark-bg`: solo si se necesita el fondo incluido.
-- `klave-icon-primary.svg`: favicon y app icon default.
-- `klave-icon-dark.svg` y `klave-icon-inverse.svg`: variantes solo símbolo para
-  superficies específicas.
+- `klave-icon-dark.svg`: favicon y app icon default.
+- `klave-icon-primary.svg` y `klave-icon-inverse.svg`: variantes solo símbolo
+  para superficies específicas.
 
 No recrear el logo con texto HTML ni con SVG aproximado si el asset exportado
 resuelve el caso.
@@ -147,8 +147,8 @@ pnpm dlx vercel --prod
 Verificar produccion:
 
 ```bash
-curl -L -s https://www.klave.com.ar/ | rg "La tesoreria digital|klave-icon-primary"
-curl -I https://www.klave.com.ar/brand/klave-icon-primary.svg
+curl -L -s https://www.klave.com.ar/ | rg "La tesoreria digital|klave-icon-dark"
+curl -I https://www.klave.com.ar/brand/klave-icon-dark.svg
 ```
 
 ## Deploy legacy a GitHub Pages
